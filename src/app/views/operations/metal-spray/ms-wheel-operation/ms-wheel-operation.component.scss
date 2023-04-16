@@ -1,0 +1,65 @@
+.g2Wheel {
+  width: 220px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 129px;
+  height: 215px;
+  justify-content: center;
+  text-align: center;
+}
+
+.wheel {
+  display: flex;
+  justify-content: space-between;
+}
+.content {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.main-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.right-div {
+  margin-right: 35px;
+}
+
+.check {
+  margin-left: 20px;
+  height: 25px;
+  width: 25px;
+}
+
+.front-box {
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 10px;
+  width: 60px;
+  background-color: #8dfcb2;
+}
+
+.rear-box {
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 10px;
+  width: 60px;
+  background-color: #c1dfff;
+}
+
+.box {
+  display: flex;
+}
+
+.loading {
+  width: 220px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 129px;
+  height: 215px;
+  justify-content: center;
+  text-align: center;
+}

@@ -1,0 +1,83 @@
+<div>
+  <div>
+    <div>
+      <h5 class="font-weight-bold">Sorting</h5>
+    </div>
+    <div class="mt-1">
+      <span> Please select appropriate Processor below: </span>
+      <div class="mt-2">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th class="col-1"></th>
+              <th class="col-3">#PO</th>
+              <th class="col-3">#Sach No</th>
+              <th class="col-3">Process</th>
+              <th class="col-1"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of poList; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ item.po_number }}</td>
+              <td class="text-center">{{ item.sach_number }}</td>
+              <td>
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onProcessSelected(mySelect.value, item)"
+                >
+                  <option disabled selected>Select from list</option>
+                  <option
+                    value="{{ process.id }}"
+                    *ngFor="let process of processors"
+                  >
+                    {{ process.process_name }}
+                  </option>
+                </select>
+              </td>
+              <td class="text-center">
+                <div>
+                  <div *ngIf="item.isTouched">
+                    <svg
+                      [ngStyle]="{
+                        color: item.isTouched == true ? 'green' : ''
+                      }"
+                      cIcon
+                      name="cil-check"
+                      size="xl"
+                      title="Check Mark Icon"
+                    ></svg>
+                  </div>
+                  <div *ngIf="!item.isTouched">
+                    <i
+                      class="bi bi-exclamation-triangle-fill text-warning me-1"
+                      style="font-size: 25px"
+                      data-container="body"
+                      data-toggle="popover"
+                      data-placement="top"
+                      cTooltip="Incorrect tool selected."
+                      cTooltipPlacement="top"
+                      data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                    ></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-1 text-right">
+        <button
+          cButton
+          size="lg"
+          class="mr-3"
+          (click)="onSubmit()"
+          [disabled]="!isAllPoSelected"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

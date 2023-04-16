@@ -1,0 +1,160 @@
+<div>
+  <div *ngIf="!isChangeOver">
+    <div>
+      <h5 class="font-weight-bold">Changeover</h5>
+    </div>
+    <div class="mt-2">
+      <span class="d-block font-weight-bold">
+        System recommends type of changeover:
+      </span>
+    </div>
+
+    <div class="row mt-5">
+      <div
+        class="col-5 m-3"
+        [ngClass]="
+          item.element != 'Batch' ? 'disabled-btn white-card' : 'success-card'
+        "
+        *ngFor="let item of changeOverEle"
+        (click)="changeOver(item)"
+      >
+        <div class="w-75 m-3 font-weight-bold">
+          {{ item.element }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isChangeOver">
+    <div>
+      <h5 class="font-weight-bold">Tool change</h5>
+    </div>
+    <div class="mt-1" *ngIf="!isNext">
+      <span> Please select appropriate tools below: </span>
+      <div class="mt-2">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th class="col-3"></th>
+              <th class="col-2">Required</th>
+              <th class="col-3">Actual</th>
+              <th class="col-1"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tool of tools">
+              <td>{{ tool.name }}</td>
+              <td
+                class="text-center"
+                *ngIf="
+                  tool.value != 'pitch_block_sizes' &&
+                  tool.value != 'shaping_tool_sizes' &&
+                  tool.value != 'turn_table_options' &&
+                  tool.value != 'shaping_type'
+                "
+              >
+                {{ tool.selected_value }}
+              </td>
+              <td
+                class="text-center"
+                *ngIf="
+                  tool.value == 'pitch_block_sizes' ||
+                  tool.value == 'shaping_tool_sizes' ||
+                  tool.value == 'turn_table_options'
+                "
+              >
+                {{ tool?.selected_value[0] }} -
+                {{ tool?.selected_value[tool?.selected_value.length - 1] }}
+              </td>
+              <td class="text-center" *ngIf="tool.value == 'shaping_type'">
+                {{ tool.selected_value === "S" ? "Single" : "Double" }}
+              </td>
+              <td>
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onToolSelected(mySelect.value, tool, 'object')"
+                  *ngIf="typeOf(tool.selected_value) === 'object'"
+                >
+                  <option disabled selected>Select from list</option>
+                  <option
+                    value="{{ item }}"
+                    *ngFor="let item of tool.selected_value"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+                <select
+                  cSelect
+                  #mySelect
+                  value="{{ tool.selected_value }}"
+                  (change)="onToolSelected(mySelect.value, tool)"
+                  *ngIf="
+                    tool.value !== 'shaping_type' &&
+                    typeOf(tool.selected_value) === 'string'
+                  "
+                >
+                  <option disabled selected>Select from list</option>
+                  <option>
+                    {{ tool.selected_value }}
+                  </option>
+                </select>
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onToolSelected(mySelect.value, tool)"
+                  *ngIf="
+                    tool.value === 'shaping_type' &&
+                    typeOf(tool.selected_value) === 'string'
+                  "
+                >
+                  <option disabled selected>Select from list</option>
+                  <option value="S">Single</option>
+                  <option value="D">Double</option>
+                </select>
+              </td>
+              <td>
+                <div>
+                  <div *ngIf="tool.isChecked && tool.isTouched">
+                    <svg
+                      [ngStyle]="{
+                        color: tool.isChecked == true ? 'green' : 'red'
+                      }"
+                      cIcon
+                      name="cil-check"
+                      size="xl"
+                      title="Check Mark Icon"
+                    ></svg>
+                  </div>
+                  <div *ngIf="tool.isChecked == false && tool.isTouched">
+                    <i
+                      class="bi bi-exclamation-triangle-fill text-warning me-1"
+                      style="font-size: 25px"
+                      data-container="body"
+                      data-toggle="popover"
+                      data-placement="top"
+                      cTooltip="Incorrect tool selected."
+                      cTooltipPlacement="top"
+                      data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                    ></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-1 text-right">
+        <button
+          cButton
+          size="lg"
+          class="mr-3"
+          (click)="onSubmit()"
+          [disabled]="!isToolAllSelected"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

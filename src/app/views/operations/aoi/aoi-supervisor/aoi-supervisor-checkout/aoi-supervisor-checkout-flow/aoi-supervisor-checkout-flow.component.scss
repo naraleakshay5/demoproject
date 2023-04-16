@@ -1,0 +1,58 @@
+.header {
+  margin-bottom: 30px;
+  border: none !important;
+}
+
+.bins-count {
+  margin-left: 70px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.element-count {
+  margin-left: 37px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.label {
+  margin-top: 8px;
+}
+
+.main-div {
+  display: flex;
+}
+
+.label-box {
+  width: 320px;
+  padding: 10px;
+  border: 1px solid gray;
+  margin: 0;
+  border-radius: 15px;
+}
+
+.label-name {
+  text-align: center;
+  margin-top: 7vh;
+  font-size: 30px;
+}
+
+.unit-wt {
+  margin-left: 90px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.form-control.ng-valid {
+  background-image: none;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+}

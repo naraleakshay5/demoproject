@@ -1,0 +1,20 @@
+<div class="header-content po-card">
+  <div class="row">
+    <div class="col-6">PO#: {{ "poData?.po_number" }}</div>
+    <div class="col-6">SachId:{{ "poData?.sach_number" }}</div>
+  </div>
+</div>
+<div class="continer-fluid">
+  <div class="row w-100">
+    <div class="full-main-content po-card p-3" style="overflow-x: hidden">
+      <h5 class="font-weight-bold">SAP Confirmation</h5>
+      <div class="mt-5 d-flex">
+        <h6 class="font-weight-bold mt-1">Enter SAP Confirmation number-</h6>
+        <input class="w-25 ml-3 form-control" type="number" />
+      </div>
+      <div class="text-right mt-3">
+        <button cButton color="primary" class="mr-3">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

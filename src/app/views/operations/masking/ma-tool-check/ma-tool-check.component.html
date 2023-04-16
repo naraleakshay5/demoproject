@@ -1,0 +1,61 @@
+<div class="header">
+  <h2>Required Tools</h2>
+</div>
+
+<div>
+  <div class="span">
+    <span>Please fetch required tools for this PO and confirm in the DPS</span>
+  </div>
+
+  <div>
+    <div class="main-body">
+      <div>
+        <label for="">Pusher ID: {{ pusherId }}</label>
+      </div>
+      <div class="check-box">
+        <c-form-check>
+          <input
+            cFormCheckInput
+            class="check input-check"
+            id="checkOne"
+            type="checkbox"
+            (change)="checkPusherId($event)"
+          />
+        </c-form-check>
+      </div>
+    </div>
+    <div class="main-body">
+      <div>
+        <label for="">Element Guide Plate ID: {{ elementGuideId }}</label>
+      </div>
+      <div class="check-box">
+        <c-form-check>
+          <input
+            class="check input-check"
+            cFormCheckInput
+            id="checkTwo"
+            type="checkbox"
+            (change)="checkElementGuideId($event)"
+          />
+        </c-form-check>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <span>Please confirm that you have fetched all the tools.</span>
+  </div>
+</div>
+
+<div class="text-right">
+  <button
+    cButton
+    class="btn"
+    color="primary"
+    size="lg"
+    [ngClass]="!allChecked ? 'btn-disabled' : ''"
+    [disabled]="!allChecked"
+    (click)="proceedToCompleteToolCheck()"
+  >
+    Confirm and Proceed
+  </button>
+</div>

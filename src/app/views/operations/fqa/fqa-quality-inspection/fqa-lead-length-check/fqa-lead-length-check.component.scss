@@ -1,0 +1,25 @@
+.add-quantity {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ok {
+  color: green;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.postion_first {
+  position: absolute;
+  right: 250px;
+}
+.postion_second {
+  position: absolute;
+  right: 40px;
+}
+
+.not_ok {
+  color: red;
+  cursor: pointer;
+  font-size: 24px;
+}

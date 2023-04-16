@@ -1,0 +1,129 @@
+<div class="p-3">
+  <div class="header">
+    <h5 class="font-weight-bold">Required Tools</h5>
+  </div>
+
+  <div>
+    <div class="span">
+      <span class="span"
+        >Please fetch required tools for this PO and confirm in the DPS</span
+      >
+    </div>
+
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th scope="col">Tool</th>
+          <th scope="col">Required Tool Size</th>
+          <th scope="col">Select Tool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let index of poToolDetails; let i = index">
+          <td class="text-left">{{ index?.name }}</td>
+          <td>{{ index?.required_value }}</td>
+          <td>
+            <select
+              aria-label="Default select example"
+              cSelect
+              #mySelect
+              (change)="onToolSelected(mySelect.value, index)"
+            >
+              <option selected disabled>Select Tool</option>
+              <option value="{{ item }}" *ngFor="let item of index.list">
+                {{ item }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <div>
+              <div *ngIf="index.isChecked && index.isTouched">
+                <svg
+                  [ngStyle]="{
+                    color: index.isChecked == true ? 'green' : 'red'
+                  }"
+                  cIcon
+                  name="cil-check"
+                  size="xl"
+                  title="Check Mark Icon"
+                ></svg>
+              </div>
+              <div *ngIf="index.isChecked == false && index.isTouched">
+                <i
+                  class="bi bi-exclamation-triangle-fill text-warning me-1"
+                  style="font-size: 25px"
+                  data-container="body"
+                  data-toggle="popover"
+                  data-placement="top"
+                  cTooltip="Incorrect tool selected."
+                  cTooltipPlacement="top"
+                  data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                ></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="machine[0].is_pre_press === true">
+    <h5 class="font-weight-bold">Pre-Press</h5>
+    <div class="d-flex">
+      <span>Do you want to Pre-Press Online?</span>
+      <div class="ml-3">
+        <label
+          for="yes"
+          class="white-card yesNoBtn mr-3 text-center"
+          style=""
+          [ngClass]="yes ? 'ok' : ''"
+          >Yes</label
+        >
+        <input
+          type="radio"
+          id="yes"
+          name="yesNoBtn"
+          (change)="onItemChange($event)"
+          value="yes"
+          class="d-none"
+        />
+        <label
+          for="no"
+          class="white-card yesNoBtn text-center"
+          [ngClass]="no ? 'not_ok' : ''"
+          >No</label
+        >
+        <input
+          type="radio"
+          id="no"
+          name="yesNoBtn"
+          (change)="onItemChange($event)"
+          value="no"
+          class="d-none"
+        />
+      </div>
+    </div>
+  </div>
+  <div>
+    <app-modal-material
+      *ngIf="previousSachSame"
+      (materialModalCheck)="confirmModalToCompleteMaterialCheck()"
+      (materialModalCheckCancelled)="cancelAllRollScanned()"
+      title="Tool Check"
+      [text]="'Do you want to use current tool?.'"
+    ></app-modal-material>
+  </div>
+
+  <div class="text-right mt-5">
+    <button
+      cButton
+      color="primary"
+      size="lg"
+      [ngClass]="isToolAllSelected ? 'btn-disabled' : ''"
+      [disabled]="!isToolAllSelected"
+      (click)="proceedToCompleteToolCheck()"
+    >
+      Proceed
+    </button>
+  </div>
+</div>

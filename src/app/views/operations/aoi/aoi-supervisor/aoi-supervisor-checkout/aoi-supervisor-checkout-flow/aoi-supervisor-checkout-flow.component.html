@@ -1,0 +1,46 @@
+<div class="header">
+  <h3>Checkout</h3>
+</div>
+
+<div class="main-div">
+  <div>
+    <div class="d-flex mt-3">
+      <label class="label ml-2" for="">Po Number:</label>
+      <input
+        class="w-25 mb-3 ml-3 form-control unit-wt"
+        min="0"
+        type="text"
+        [ngModel]="poData?.po_number"
+        type="number"
+        disabled
+      />
+    </div>
+    <div class="d-flex mt-3">
+      <label class="label ml-2" for="">No. of Good Boxes:</label>
+      <input
+        class="w-25 mb-3 form-control element-count"
+        type="number"
+        min="0"
+        [(ngModel)]="noOfGoodBoxes"
+        disabled
+      />
+    </div>
+    <div class="d-flex mt-3">
+      <label class="label ml-2" for="">No. of Good element:</label>
+      <input
+        class="w-25 mb-3 form-control element-count"
+        type="number"
+        min="0"
+        [(ngModel)]="noOfGoodElement"
+        disabled
+      />
+    </div>
+  </div>
+</div>
+<div>
+  <div class="text-right mt-3">
+    <button cButton color="primary" size="lg" (click)="proceed()">
+      Proceed
+    </button>
+  </div>
+</div>

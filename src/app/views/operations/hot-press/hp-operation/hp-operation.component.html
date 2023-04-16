@@ -1,0 +1,152 @@
+<div *ngIf="!isProgressCompleted">
+  <div>
+    <!-- <h4 class="font-weight-bold">Please start the Cycle.</h4> -->
+    <h5 class="font-weight-bold">Process status</h5>
+    <!-- <div class="mt-3">
+      <span class="d-block">Machine is ready for production ! </span>
+      <span class="d-block"> System will track machine parameters. </span>
+    </div> -->
+  </div>
+  <div>
+    <div class="d-flex mt-5" style="justify-content: space-between">
+      <span>Estimated time of Completion(ETC): {{ estimatedTime }} Sec</span>
+      <span class="mr-2"> {{ progress }} %Completed</span>
+    </div>
+    <c-progress class="mb-3" [height]="20">
+      <c-progress-bar [value]="progress"></c-progress-bar>
+    </c-progress>
+    <div class="text-right">
+      <button
+        cButton
+        color="primary"
+        *ngIf="!isProgressCompleted"
+        (click)="incrementTheProgress()"
+      >
+        +
+      </button>
+      <button
+        class="ml-3"
+        cButton
+        color="primary"
+        *ngIf="!isProgressCompleted"
+        (click)="inputBinScan()"
+      >
+        Input Scan Bin
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isProgressCompleted">
+  <div>
+    <h4 class="font-weight-bold">Work Instruction</h4>
+  </div>
+  <div class="text-right mt-3 mb-3">
+    <span class="mr-2 font-weight-bold">Cycle {{ progress }} %Completed</span>
+  </div>
+  <c-progress class="mb-3" [height]="20">
+    <c-progress-bar [value]="progress"></c-progress-bar>
+  </c-progress>
+
+  <div class="mt-5">
+    <span class="font-weight-bold mb-2"
+      >Perform finger press check for element opening.
+    </span>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">Trey Location</th>
+          <th class="col-2">Sample size</th>
+          <th class="col-3">Sample 1</th>
+          <th class="col-3">Sample 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tray of trays; let i = index">
+          <td>{{ tray.param_name }}</td>
+          <td class="text-center">{{ tray.sample_size }}</td>
+          <td>
+            <div class="text-center">
+              <label
+                for="is_sample_1_not_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                class="mr-3"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="tray?.is_sample_1_not_ok ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_1_not_ok_{{ i }}"
+                name="ok-notok_sample_1_{{ i }}"
+                (change)="onItemChange($event)"
+                value="notoksample1_{{ i }}"
+                class="d-none"
+              />
+              <label
+                for="is_sample_1_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="tray?.is_sample_1_ok ? 'ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_1_ok_{{ i }}"
+                name="ok-notok_sample_1_{{ i }}"
+                (change)="onItemChange($event)"
+                value="oksample1_{{ i }}"
+                class="d-none"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              <label
+                for="is_sample_2_not_ok_{{ i }}"
+                class="mr-3"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="tray?.is_sample_2_not_ok ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_2_not_ok_{{ i }}"
+                name="ok-notok_sample_2_{{ i }}"
+                (change)="onItemChange($event)"
+                value="notoksample2_{{ i }}"
+                class="d-none"
+              />
+              <label
+                for="is_sample_2_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="tray?.is_sample_2_ok ? 'ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_2_ok_{{ i }}"
+                name="ok-notok_sample_2_{{ i }}"
+                (change)="onItemChange($event)"
+                value="oksample2_{{ i }}"
+                class="d-none"
+              />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right">
+    <button cButton (click)="Submit()" [disabled]="!isSubmitBtn">Submit</button>
+    <button cButton class="ml-3" (click)="Submit()" [disabled]="!isReworkBtn">
+      Rework
+    </button>
+  </div>
+</div>

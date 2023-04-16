@@ -1,0 +1,99 @@
+<div>
+  <div>
+    <h4 class="font-weight-bold">Re-Testing.</h4>
+    <div class="mt-3 mb-3">
+      <span class="d-block"> System will track machine parameters. </span>
+    </div>
+  </div>
+
+  <div *ngIf="progress >= 100">
+    <div class="mt-3 p-3 success-card" *ngIf="completePo">
+      <span class="d-block font-weight-bold">Success:</span>
+      <span class="d-block">PO Completed.</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="mb-2">
+      <label for="">#Capacitor Processed: {{ elementCount }}</label>
+    </div>
+    <div class="mb-2">
+      <label for=""
+        >#Remaining Capacitor to be Processed: {{ remainingElement }}</label
+      >
+    </div>
+    <div class="mb-2">
+      <label for="">#HV Capacitor Reject Count : {{ hvRejectedCount }}</label>
+    </div>
+    <div class="mb-2">
+      <label for="">#IR Capacitor Reject Count : {{ irRejectedCount }}</label>
+    </div>
+    <div class="mb-2">
+      <label for=""
+        >#Tan D 1K Capacitor Reject Count : {{ tanD1kRejectedCount }}</label
+      >
+    </div>
+    <div class="mb-2">
+      <label for=""
+        >#Tan D 10K 100K Capacitor Reject Count :
+        {{ tanD10k100KRejectedCount }}</label
+      >
+    </div>
+    <div class="mb-2">
+      <label for="">#Cap Capacitor Reject Count : {{ capRejectedCount }}</label>
+    </div>
+  </div>
+  <div>
+    <div class="text-right">
+      <span class="mr-2"> {{ progress }} %Completed</span>
+    </div>
+    <c-progress class="mb-3" [height]="20">
+      <c-progress-bar [value]="progress"></c-progress-bar>
+    </c-progress>
+
+    <button
+      *ngIf="proceedToSPCBtn"
+      cButton
+      color="primary"
+      size="lg"
+      (click)="inProcessQualityCheck()"
+    >
+      In-Process Quality Check
+    </button>
+    <div class="text-right mt-3">
+      <button
+        class="ml-1"
+        cButton
+        color="primary"
+        size="lg"
+        (click)="addOutputBins()"
+      >
+        Add Output Bins
+      </button>
+      <button
+        *ngIf="enableRetesting"
+        cButton
+        class="ml-1"
+        color="primary"
+        size="lg"
+        (click)="reTesting()"
+      >
+        Re Testing
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="progress >= 100" class="mt-3">
+    <div class="mt-3 text-right">
+      <button
+        *ngIf="completePo"
+        cButton
+        color="primary"
+        size="lg"
+        (click)="completedPo()"
+      >
+        Complete PO
+      </button>
+    </div>
+  </div>
+</div>

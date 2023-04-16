@@ -1,0 +1,28 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Resto Adjustments</h5>
+  </div>
+
+  <div class="mt-3">
+    <span class="d-block"
+      >DPS has detected next batch has different Sach than the current
+      batch</span
+    >
+    <span class="d-block"> Store the remaining QTY in kardex resto box.</span>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Quantity</label>
+      <input
+        class="w-25 mb-3 form-control bins-count"
+        type="number"
+        [(ngModel)]="totalQty"
+      />
+    </div>
+  </div>
+
+  <div class="text-right">
+    <button cButton class="ml-3" (click)="proceed()">
+      <!-- [disabled]="!is_btnDisabled" -->
+      Proceed
+    </button>
+  </div>
+</div>

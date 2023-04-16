@@ -1,0 +1,57 @@
+.button {
+  background-color: #cad2cf;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.scroll {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.btn {
+  border-radius: 9px;
+  margin: 4px;
+}
+
+.plusButton {
+  margin-right: 10px;
+}
+
+.minusButton {
+  margin-left: 10px;
+}
+
+.recipe {
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: #b4afaf;
+  font-size: 18px;
+  font-weight: 600;
+}
+.active {
+  color: #2c6dd3 !important;
+}
+
+td {
+  border-top: none;
+}
+
+th,
+td {
+  padding: 4px;
+  vertical-align: middle !important;
+}

@@ -1,0 +1,654 @@
+<c-card style="margin-right: 25px">
+  <!-- ********************************************************************** -->
+
+  <c-card-body
+    *ngIf="
+      token &&
+      (process_slug == 'winding' ||
+        process_slug == 'prescan-hotpress' ||
+        process_slug == 'hotpress' ||
+        process_slug == 'masking' ||
+        process_slug == 'metal-spray' ||
+        process_slug == 'fqa' ||
+        process_slug == 'taping' ||
+        process_slug == 'tempering' ||
+        process_slug == 'off-line-clearing' ||
+        process_slug == 'testing' ||
+        processId == 12 ||
+        process_slug == 'deburr-demask' ||
+        processId == 13 ||
+        process_slug == 'assembly')
+    "
+  >
+    <h5>Orders to Process</h5>
+    <div class="text-center" *ngIf="poListProdPlan?.length < 1">
+      <h5>No data</h5>
+      <hr />
+    </div>
+    <table cTable>
+      <thead class="text-center" *ngIf="poListProdPlan?.length > 0">
+        <tr>
+          <th class="col-3">Prod.Order</th>
+          <!-- <th class="col-2">PO Type</th> -->
+          <th class="col-2">Sach</th>
+          <th *ngIf="process_slug !== 'winding'" class="col-3">#Carriers</th>
+          <th class="col-2">Qty</th>
+          <th scope="col">LS</th>
+          <th scope="col">BS</th>
+          <th scope="col">PMT Delay</th>
+          <!-- <th scope="col">Notes</th> -->
+          <th class="col-2" *ngIf="poListProdPlan[0]?.preScan">Pre-scan</th>
+          <th class="col-2" *ngIf="process_slug == 'hotpress'">Pre-Press</th>
+          <th class="col-2" *ngIf="processId == 13">Trolley Id</th>
+          <th class="col-2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListProdPlan; let i = index">
+          <td scope="col-3">
+            {{ item.po_number }}
+            <i
+              class="bi bi-info-circle-fill pl-2 text-info me-1"
+              cTooltip="{{ item?.instruction }}"
+              cTooltipPlacement="top"
+              placement="top"
+              *ngIf="item.isInstruction"
+            ></i>
+          </td>
+          <!-- <td>{{ item?.po_type }}</td> -->
+          <td>{{ item?.sach_number }}</td>
+          <td *ngIf="process_slug !== 'winding'" class="text-center">
+            {{ item?.input_carrier }}
+          </td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td class="text-center">{{ item?.lead_space }}</td>
+          <td class="text-center">{{ item?.box_size }}</td>
+          <td class="text-center">{{ item?.pmt_delay }}</td>
+          <!-- <td>{{ item?.notes }}</td> -->
+          <td
+            class="text-center"
+            *ngIf="item.preScan && poListProdPlan[0].preScan"
+          >
+            Completed
+          </td>
+          <td
+            class="text-center"
+            *ngIf="item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            Yes
+          </td>
+          <td
+            class="text-center"
+            *ngIf="!item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            No
+          </td>
+          <td class="text-center" *ngIf="processId == 13">
+            {{ item?.trolley_id }}
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'winding'">
+            <button
+              *ngIf="
+                !isInProcess &&
+                poListInProcess?.length < 1 &&
+                currentUser.role !== 'Operator'
+              "
+              [ngClass]="
+                i != 0 || currentUser.role == 'Operator'
+                  ? 'disabled-btn'
+                  : 'enable-btn'
+              "
+              [disabled]="i != 0 || currentUser.role == 'Operator'"
+              (click)="windingstarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+            <button
+              *ngIf="
+                !isInProcess &&
+                poListInProcess?.length < 1 &&
+                currentUser.role === 'Operator'
+              "
+              [ngClass]="getClassOf(item, i)"
+              [disabled]="!isStartBtn"
+              (click)="windingstarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'hotpress'">
+            <button
+              [ngClass]="i != 0 || isStartBtn ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0 || isStartBtn"
+              (click)="hotPressstarted(item)"
+              class="btn btn-primary w-100 p-2"
+              *ngIf="!isInProcess && poListInProcess?.length < 1"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'masking'">
+            <button
+              [ngClass]="i != 0 || isStartBtn ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0 || isStartBtn"
+              (click)="maskingStarted(item)"
+              class="btn btn-primary w-100 p-2"
+              *ngIf="!isInProcess && poListInProcess?.length < 1"
+            >
+              Start
+            </button>
+          </td>
+          <td
+            class="text-center"
+            *ngIf="
+              process_slug == 'prescan-hotpress' ||
+              process_slug == 'prescan-masking'
+            "
+          >
+            <button
+              routerLinkActive="active"
+              [ngClass]="
+                i != 0 || poListInProcess?.length > 0
+                  ? 'disabled-btn'
+                  : 'enable-btn'
+              "
+              [disabled]="i != 0 || poListInProcess?.length > 0"
+              (click)="preScanStarted(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'metal-spray'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="isStartNewPO == true && indexingLeft < 0"
+              (click)="metalSprayStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'deburr-demask'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="demaskDeburStarted(item)"
+              class="btn btn-primary p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'tempering'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="temperingStarted(item)"
+              class="btn btn-primary p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'off-line-clearing'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="offlineStarted(item)"
+              class="btn btn-primary p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'assembly'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              (click)="assemblyStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'testing'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="isStartNewPO == true"
+              (click)="testingStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+
+          <td class="text-center" *ngIf="process_slug == 'fqa'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="fqaStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'taping'">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="tapingStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h5>Orders in Process</h5>
+    <div class="text-center" *ngIf="poListInProcess?.length < 1">
+      <h5>No data</h5>
+      <hr />
+    </div>
+    <table cTable>
+      <thead class="text-center" *ngIf="poListInProcess?.length > 0">
+        <tr>
+          <th class="col-3">Prod.Order</th>
+          <!-- <th class="col-2">PO Type</th> -->
+          <th class="col-2">Sach</th>
+          <th *ngIf="process_slug !== 'winding'" class="col-3">#Carriers</th>
+          <th class="col-2">Qty</th>
+          <th scope="col">LS</th>
+          <th scope="col">BS</th>
+          <th scope="col">PMT Delay</th>
+          <!-- <th scope="col">Notes</th> -->
+          <th class="col-2" *ngIf="poListProdPlan[0]?.preScan">Pre-scan</th>
+          <th class="col-2" *ngIf="process_slug == 'hotpress'">Pre-Press</th>
+          <th class="col-2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListInProcess; let i = index">
+          <td scope="col-3">
+            {{ item.po_number }}
+            <i
+              class="bi bi-info-circle-fill pl-2 text-info me-1"
+              [cTooltip]="item.instruction"
+              cTooltipPlacement="top"
+              placement="top"
+              *ngIf="item.isInstruction"
+            ></i>
+          </td>
+          <!-- <td>{{ item?.po_type }}</td> -->
+          <td>{{ item?.sach_number }}</td>
+          <td *ngIf="process_slug !== 'winding'" class="text-center">
+            {{ item?.input_carrier }} Bins
+          </td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td class="text-center">{{ item?.lead_space }}</td>
+          <td class="text-center">{{ item?.box_size }}</td>
+          <td class="text-center">{{ item?.pmt_delay }}</td>
+          <!-- <td>{{ item?.notes }}</td> -->
+          <td
+            class="text-center"
+            *ngIf="item.preScan && poListProdPlan[0]?.preScan"
+          >
+            Completed
+          </td>
+          <td
+            class="text-center"
+            *ngIf="item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            Yes
+          </td>
+          <td
+            class="text-center"
+            *ngIf="!item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            No
+          </td>
+          <td class="text-center" *ngIf="process_slug == 'hotpress'">
+            <button
+              *ngIf="item.in_process && process_slug == 'hotpress'"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="HotPressContinue(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+
+            <button
+              *ngIf="!item.in_process && process_slug == 'hotpress'"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="preHeating(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Pre-Heating
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'masking'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="maskingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'deburr-demask'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="demaskDeburContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'tempering'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="temperingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'off-line-clearing'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="offlineContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'metal-spray'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [disabled]="item.init_setup_done"
+              (click)="metalSprayContinued(item)"
+              class="btn btn-primary p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td
+            *ngIf="
+              process_slug == 'prescan-hotpress' ||
+              process_slug == 'prescan-masking'
+            "
+          >
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="continuePreScan(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+
+          <td *ngIf="process_slug == 'winding'">
+            <button
+              *ngIf="
+                !isInProcess || previousPoData.sach_number !== item.sach_number
+              "
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="
+                (item.init_setup_done &&
+                  currentUser.role.toLowerCase() === 'setter') ||
+                (!item.init_setup_done &&
+                  currentUser.role.toLowerCase() === 'operator')
+              "
+              (click)="continueWd(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+
+            <button
+              *ngIf="
+                !isInProcess && previousPoData.sach_number === item.sach_number
+              "
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              (click)="continueWd(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+
+          <td *ngIf="process_slug == 'assembly'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              (click)="assemblyContinue(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'testing'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="testingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'tempering'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [disabled]=""
+              (click)="temperingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'tempering'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [disabled]=""
+              (click)="temperingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'fqa'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [disabled]=""
+              (click)="fqaContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+          <td *ngIf="process_slug == 'taping'">
+            <button
+              *ngIf="!isInProcess"
+              routerLinkActive="active"
+              [disabled]=""
+              (click)="tapingContinued(item)"
+              class="btn btn-primary w-100 p-2"
+            >
+              Continue
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br />
+    <h5>Previously Completed Orders</h5>
+    <div class="text-center" *ngIf="poListCompleted?.length < 1">
+      <h5>No data</h5>
+      <hr />
+    </div>
+    <table cTable *ngIf="poListCompleted?.length > 0">
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">#PO</th>
+          <th class="col-2">PO Type</th>
+          <th class="col-3">#Sach Id</th>
+          <th class="col-2">#PO Quantity</th>
+          <th class="col-2">PO Checkout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListCompleted">
+          <td>{{ item.po_number }}</td>
+          <td>{{ item?.po_type }}</td>
+          <td>{{ item?.sach_number }}</td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td>{{ item?.completed_on | date : "dd/MM/yyyy" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+
+  <c-card-body
+    *ngIf="
+      !token &&
+      (process_slug == 'winding' ||
+        process_slug == 'hotpress' ||
+        process_slug == 'masking' ||
+        process_slug == 'prescan-hotpress' ||
+        process_slug == 'metal-spray' ||
+        process_slug == 'deburr-demask' ||
+        process_slug == 'tempering' ||
+        process_slug == 'off-line-clearing' ||
+        process_slug == 'assembly' ||
+        process_slug == 'testing' ||
+        process_slug == 'taping' ||
+        process_slug == 'fqa')
+    "
+  >
+    <h2>Daily Production Plan</h2>
+    <div class="text-center" *ngIf="poListProdPlan?.length < 1">
+      <h5>No data</h5>
+      <hr />
+    </div>
+    <table cTable *ngIf="poListProdPlan?.length > 0">
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">Prod.Order</th>
+          <!-- <th class="col-2">PO Type</th> -->
+          <th class="col-2">Sach</th>
+          <th *ngIf="process_slug !== 'winding'" class="col-3">#Carriers</th>
+          <th class="col-2">Qty</th>
+          <th scope="col">LS</th>
+          <th scope="col">BS</th>
+          <th scope="col">PMT Delay</th>
+          <!-- <th scope="col">Notes</th> -->
+          <th class="col-2" *ngIf="poListProdPlan[0]?.preScan">Pre-scan</th>
+          <th class="col-2" *ngIf="process_slug == 'hotpress'">Pre-Press</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListProdPlan">
+          <td>{{ item.po_number }}</td>
+          <!-- <td>{{ item?.po_type }}</td> -->
+          <td>{{ item?.sach_number }}</td>
+          <td *ngIf="process_slug !== 'winding'" class="text-center">
+            {{ item?.input_carrier }} Bins
+          </td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td class="text-center">{{ item?.lead_space }}</td>
+          <td class="text-center">{{ item?.box_size }}</td>
+          <td class="text-center">{{ item?.pmt_delay }}</td>
+          <!-- <td>{{ item?.notes }}</td> -->
+          <td
+            class="text-center"
+            *ngIf="item.preScan && poListProdPlan[0]?.preScan"
+          >
+            Completed
+          </td>
+          <td
+            class="text-center"
+            *ngIf="item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            Yes
+          </td>
+          <td
+            class="text-center"
+            *ngIf="!item.is_pre_press_required && process_slug == 'hotpress'"
+          >
+            No
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <h2>Previously Completed Orders</h2>
+    <div class="text-center" *ngIf="poListCompleted?.length < 1">
+      <h5>No data</h5>
+      <hr />
+    </div>
+    <table cTable *ngIf="poListCompleted?.length > 0">
+      <thead class="text-center">
+        <tr>
+          <th scope="col">#PO</th>
+          <th scope="col">PO Type</th>
+          <th scope="col">#Sach Id</th>
+          <th scope="col">#PO Quantity</th>
+          <th scope="col">Lead Space</th>
+          <th scope="col">Box Size</th>
+          <th scope="col">PMT Delay</th>
+          <th scope="col">Notes/Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListCompleted">
+          <td>{{ item.po_number }}</td>
+          <td>{{ item?.po_type }}</td>
+          <td>{{ item?.sach_number }}</td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td>{{ item?.ls_value }}</td>
+          <td class="text-center">{{ item?.box_size }}</td>
+          <td class="text-center">{{ item?.pmt_delay_weeks }}</td>
+          <td>{{ item?.remarks }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+  <!-- ********************************************************************** -->
+</c-card>
+
+<div *ngIf="isError">
+  <app-pop-up-modal
+    (modalCheck)="refreshpage()"
+    title="Warning"
+    [text]="'Selected Production order already started on another machine.'"
+    [confirm]="'Continue'"
+    [cancel]="'Cancel'"
+  ></app-pop-up-modal>
+</div>

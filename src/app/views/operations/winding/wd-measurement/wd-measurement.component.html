@@ -1,0 +1,89 @@
+<div class="p-3">
+  <div>
+    <h5 class="font-weight-bold">Measurement</h5>
+  </div>
+  <div>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th scope="col" class="col-4">Parameter</th>
+          <th scope="col" class="col-3">Tolerance Band</th>
+          <th scope="col">Sample 1</th>
+          <th scope="col">Sample 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of measurement; let i = index">
+          <td class="col-4">{{ item?.param_name }}</td>
+          <td class="text-center">{{ item?.min }}-{{ item?.max }}</td>
+          <td class="text-center">
+            <div class="text-center d-flex">
+              <input
+                class="w-75 form-control"
+                type="number"
+                [(ngModel)]="item.sample1"
+                (keyup)="valueInput()"
+              />
+              <label
+                for="not_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                *ngIf="item?.is_sample_1 === false"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="item?.is_sample_1 === false ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <label
+                for="ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                *ngIf="item?.is_sample_1 === true"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="item?.is_sample_1 === true ? 'ok' : ''"
+                ></i
+              ></label>
+            </div>
+          </td>
+          <td class="text-center">
+            <div class="text-center d-flex">
+              <input
+                class="w-75 form-control"
+                type="number"
+                [(ngModel)]="item.sample2"
+                (keyup)="valueInput()"
+              />
+              <label
+                for="not_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                *ngIf="item?.is_sample_2 === false"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="item?.is_sample_2 === false ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <label
+                for="ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                *ngIf="item?.is_sample_2 === true"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="item?.is_sample_2 === true ? 'ok' : ''"
+                ></i
+              ></label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right">
+    <button
+      cButton
+      class=""
+      (click)="proceed()"
+      [disabled]="this.isSample1 === undefined && this.isSample2 === undefined"
+    >
+      Proceed
+    </button>
+  </div>
+</div>

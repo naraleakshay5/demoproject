@@ -1,0 +1,82 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Input Carriers Bins</h5>
+  </div>
+  <div
+    class="mt-3 p-3 success-card"
+    *ngIf="totalBins == scanned_bin && totalBins != 0"
+  >
+    <span class="d-block font-weight-bold">Well Done!</span>
+    <span class="d-block">All Bins for this PO are received.</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="!isWrongBinScanned">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Scanned bin does not belong to current PO.</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="isAlreadyBinScanned == true">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Bin already scanned, please scan another bin.</span>
+  </div>
+
+  <div class="mt-3">
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-1">Sr No</th>
+          <th class="col-4">Carrier Id (Bin)</th>
+          <th class="col-4">Scanned Carrier Id (Bin)</th>
+          <th class="col-3">Scan Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of scannedBins; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item?.name.split("AUTO_")[1] }}</td>
+          <td>{{ item?.scanned_bin.split("AUTO_")[1] }}</td>
+          <td class="text-center">
+            <div *ngIf="item?.is_checked">
+              <svg
+                class="checkMark"
+                cIcon
+                name="cil-check"
+                size="xl"
+                title="Check Mark Icon"
+              ></svg>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right d-flex" style="justify-content: space-between">
+    <div>
+      <span class="d-block font-weight-bold"
+        >Total Input bins: {{ totalBins }}</span
+      >
+      <span class="d-block font-weight-bold"
+        >Scanned bins: {{ scanned_bin }}/{{ totalBins }}
+      </span>
+    </div>
+    <div>
+      <button cButton (click)="startScanning()" *ngIf="!is_btnDisabled">
+        Scan Bin
+      </button>
+      <button
+        cButton
+        class="ml-3"
+        [disabled]="!is_btnDisabled"
+        (click)="proceed()"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-common-jobs
+  *ngIf="isOpen && scanned_bin !== totalBins"
+  [isOpen]="isOpen"
+  (scanModal)="checkScannedBins($event)"
+  (modalCheckCacelled)="closeOpen()"
+  (cancelScan)="cancelScan()"
+></app-common-jobs>

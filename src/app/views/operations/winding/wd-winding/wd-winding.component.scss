@@ -1,0 +1,20 @@
+.btn {
+  margin: 3px;
+  margin-top: 2px;
+}
+
+.span {
+  margin-top: 2px;
+  display: block;
+}
+
+.header {
+  margin-bottom: 30px;
+  border: none !important;
+}
+
+.form-control.ng-valid {
+  background-image: none;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+  padding: 0px;
+}

@@ -1,0 +1,74 @@
+<div>
+  <div>
+    <div class="mb-4">
+      <h3>Process Status</h3>
+    </div>
+    <div>
+      <div class="mb-2">
+        <label for="">#Elements Processed: {{ elementsProcessed }}</label>
+      </div>
+      <div class="mb-2">
+        <label for=""
+          >#Elements To PO Completion : {{ remainingElements }}</label
+        >
+      </div>
+      <div class="mb-2">
+        <label for="">#Good Elements : {{ goodElements }}</label>
+      </div>
+      <div class="mb-2">
+        <label for="">#Elements Rejected : {{ rejectedElements }}</label>
+      </div>
+    </div>
+    <div class="mt-3">
+      <div class="text-right">
+        <span class="mr-2"> {{ progress }} %Completed</span>
+      </div>
+      <c-progress class="mb-3" [height]="20">
+        <c-progress-bar [value]="progress"></c-progress-bar>
+      </c-progress>
+      <button
+        *ngIf="proceedToSPCBtn"
+        cButton
+        color="primary"
+        size="lg"
+        (click)="inProcessQualityCheck()"
+      >
+        In-Process Quality Check
+      </button>
+      <div>
+        <button
+          cButton
+          color="primary"
+          size="lg"
+          [disabled]="false"
+          (click)="addOutputBins()"
+        >
+          Add Output Bins
+        </button>
+        <button
+          cButton
+          class="ml-3"
+          color="primary"
+          size="lg"
+          [disabled]="false"
+          (click)="addRejectedOutputBins()"
+        >
+          Add Rejected Output Bins
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="progress >= 100" class="mt-3">
+    <div class="mt-3 text-right">
+      <button
+        *ngIf="completePo"
+        cButton
+        color="primary"
+        size="lg"
+        (click)="completedPo()"
+      >
+        Complete PO
+      </button>
+    </div>
+  </div>
+</div>

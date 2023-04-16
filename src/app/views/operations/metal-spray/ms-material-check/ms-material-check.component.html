@@ -1,0 +1,159 @@
+<div class="header">
+  <h3>Required Material</h3>
+</div>
+<div>
+  <div
+    class="mt-3 p-3 Warning-card"
+    *ngIf="
+      !(
+        requiredGun1Material == activeGun1Material &&
+        requiredGun2Material == activeGun2Material
+      ) ||
+      !(
+        requiredGun1WireDiamerter == activeGun1WireDiameter &&
+        requiredGun2WireDiamerter == activeGun2WireDiameter
+      )
+    "
+  >
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block"
+      >Please replace the material to match with current PO.</span
+    >
+    <div class="mt-3">
+      <button cButton color="primary" (click)="changeMaterial()">
+        Proceed to change the material
+      </button>
+    </div>
+  </div>
+
+  <table cTable>
+    <thead>
+      <tr>
+        <th class="text-center">Item</th>
+        <th class="text-center" colSpan="2">Required</th>
+        <th class="text-center" colSpan="2">Active</th>
+        <th class="text-center">Status</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th class="text-center">G1</th>
+        <th class="text-center">G2</th>
+        <th class="text-center">G1</th>
+        <th class="text-center">G2</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">{{ "Wire Material" }}</td>
+        <td class="text-center">{{ requiredGun1MaterialName }}</td>
+        <td class="text-center">{{ requiredGun2MaterialName }}</td>
+        <td class="text-center">
+          {{ activeGun1MaterialName }}
+        </td>
+        <td class="text-center">
+          {{ activeGun2MaterialName }}
+        </td>
+        <td>
+          <div
+            *ngIf="
+              requiredGun1Material == activeGun1Material &&
+              requiredGun2Material == activeGun2Material
+            "
+          >
+            <svg
+              class="checkMark"
+              cIcon
+              name="cil-check"
+              size="xl"
+              title="Check Mark Icon"
+            ></svg>
+          </div>
+          <div
+            *ngIf="
+              !(
+                requiredGun1Material == activeGun1Material &&
+                requiredGun2Material == activeGun2Material
+              )
+            "
+          >
+            <i
+              class="bi bi-exclamation-triangle-fill text-warning me-1"
+              style="font-size: 25px"
+              data-container="body"
+              data-toggle="popover"
+              cTooltip="Please select the appropriate material."
+              cTooltipPlacement="top"
+              data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+            ></i>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-center">{{ "Wire Diameter" }}</td>
+        <td class="text-center">{{ requiredGun1WireDiamerter }}</td>
+        <td class="text-center">{{ requiredGun2WireDiamerter }}</td>
+        <td class="text-center">{{ activeGun1WireDiameter }}</td>
+        <td class="text-center">{{ activeGun2WireDiameter }}</td>
+        <td>
+          <div
+            *ngIf="
+              requiredGun1WireDiamerter == activeGun1WireDiameter &&
+              requiredGun2WireDiamerter == activeGun2WireDiameter
+            "
+          >
+            <svg
+              class="checkMark"
+              cIcon
+              name="cil-check"
+              size="xl"
+              title="Check Mark Icon"
+            ></svg>
+          </div>
+          <div
+            *ngIf="
+              !(
+                requiredGun1WireDiamerter == activeGun1WireDiameter &&
+                requiredGun2WireDiamerter == activeGun2WireDiameter
+              )
+            "
+          >
+            <i
+              class="bi bi-exclamation-triangle-fill text-warning me-1"
+              style="font-size: 25px"
+              data-container="body"
+              data-toggle="popover"
+              cTooltip="Please select the appropriate material."
+              cTooltipPlacement="top"
+              data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+            ></i>
+          </div>
+          <div *ngIf="material && material != null"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="text-right mt-3">
+  <button
+    cButton
+    class="mr-3"
+    color="primary"
+    size="lg"
+    [ngClass]="!isMaterialAllSelected ? 'btn-disabled' : ''"
+    [disabled]="!isMaterialAllSelected"
+    (click)="proceedToMachineStup()"
+  >
+    Proceed
+  </button>
+  <button
+    cButton
+    color="primary"
+    size="lg"
+    [ngClass]="isMaterialAllSelected ? 'btn-disabled' : ''"
+    [disabled]="isMaterialAllSelected"
+    (click)="backToPoList()"
+  >
+    Back To List
+  </button>
+</div>

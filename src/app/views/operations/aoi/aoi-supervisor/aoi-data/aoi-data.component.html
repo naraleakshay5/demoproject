@@ -1,0 +1,77 @@
+<c-card style="margin-right: 25px">
+  <c-card-body>
+    <div>
+      <h5>Orders to Process</h5>
+    </div>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">#PO</th>
+          <th class="col-2">PO Type</th>
+          <th class="col-3">#Sach Id</th>
+          <th class="col-2">#PO Quantity</th>
+          <th scope="col">Lead Space</th>
+          <th scope="col">Box Size</th>
+          <th scope="col">PMT Delay</th>
+          <th scope="col">Notes</th>
+          <th class="col-2">Pre-scan</th>
+          <th class="col-2">Offline Pre-Press Required?</th>
+          <th class="col-2">Trolley Id</th>
+          <th class="col-2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of poListProdPlan; let i = index">
+          <td scope="col-3">
+            {{ item.po_number }}
+            <i
+              class="bi bi-info-circle-fill pl-2 text-info me-1"
+              cTooltip="{{ item?.instruction }}"
+              cTooltipPlacement="top"
+              placement="top"
+              *ngIf="item.isInstruction"
+            ></i>
+          </td>
+          <td>{{ item?.po_type }}</td>
+          <td>{{ item?.sach_number }}</td>
+          <td class="text-center">{{ item?.target_quantity }}</td>
+          <td class="text-center">{{ item?.lead_space }}</td>
+          <td class="text-center">{{ item?.box_size }}</td>
+          <td class="text-center">{{ item?.pmt_delay }}</td>
+          <td>{{ item?.notes }}</td>
+          <td
+            class="text-center"
+            *ngIf="item.preScan && poListProdPlan[0].preScan"
+          >
+            Completed
+          </td>
+          <td
+            class="text-center"
+            *ngIf="item.prePressRequired && poListProdPlan[0].prePressRequired"
+          >
+            Yes
+          </td>
+          <td class="text-center">
+            {{ item?.trolley_id }}
+          </td>
+          <td
+            class="text-center"
+            *ngIf="!item.prePressRequired && poListProdPlan[0].prePressRequired"
+          >
+            No
+          </td>
+          <td class="text-center">
+            <button
+              [ngClass]="i != 0 ? 'disabled-btn' : 'enable-btn'"
+              [disabled]="i != 0"
+              (click)="poStarted(item)"
+              class="btn btn-primary w-75 p-2"
+            >
+              Start
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+</c-card>

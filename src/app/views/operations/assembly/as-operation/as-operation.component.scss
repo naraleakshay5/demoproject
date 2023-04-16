@@ -1,0 +1,31 @@
+.btns {
+  padding: 5px 30px;
+  margin: 5px;
+  background: #ebebeb;
+  box-shadow: 0px 0px 5px -2px;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.inProcess {
+  box-shadow: 0px 0px 5px -2px;
+  border-radius: 5px;
+  background: #ffe6cc;
+  border: 1px solid #d79b00;
+}
+
+.failed {
+  box-shadow: 0px 0px 5px -2px;
+  border-radius: 5px;
+  background: #fd8686;
+  border: 1px solid #d70000;
+}
+
+.success {
+  box-shadow: 0px 0px 5px -2px;
+  border-radius: 5px;
+  background: #d5e8d4;
+  border: 1px solid #83b468;
+}

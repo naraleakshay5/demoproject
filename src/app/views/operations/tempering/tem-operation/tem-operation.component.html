@@ -1,0 +1,76 @@
+<div *ngIf="!processStarted">
+  <div class="font-weight-bold">
+    <h3>Please start the cycle.</h3>
+  </div>
+  <span class="d-block mt-2">Machine is Ready for Production!</span>
+  <span class="d-block mt-2">System will track machine parameters.</span>
+
+  <div class="text-right mt-3">
+    <button cButton color="primary" size="lg" (click)="startTheProcess()">
+      Start
+    </button>
+  </div>
+</div>
+
+<div *ngIf="processStarted || temperingStarted">
+  <div>
+    <div class="mb-4">
+      <h3>Process Status</h3>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex mr-5">
+        <label for="">Batch In Time: {{ batchInTime | date: "h:mm a" }} </label>
+      </div>
+      <div class="d-flex ml-4 mr-4">
+        <label for=""
+          >Batch Out Time: {{ batchOutTime | date: "h:mm a" }}</label
+        >
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex mr-5">
+        <label for="">Temperature Zone 1: {{ temperatureZone1 + " C" }}</label>
+      </div>
+      <div class="d-flex ml-4 mr-4">
+        <label for="">Temperature Zone 2: {{ temperatureZone2 + " C" }}</label>
+      </div>
+    </div>
+    <div class="progressBar mt-3">
+      <div class="text-right">
+        <span class="mr-2"> {{ progress }} %Completed</span>
+      </div>
+
+      <c-progress class="mb-3" [height]="20">
+        <c-progress-bar [value]="progress"></c-progress-bar>
+      </c-progress>
+      <button
+        *ngIf="!(progress == 100)"
+        cButton
+        color="primary"
+        size="lg"
+        (click)="incrementTheProgress()"
+      >
+        +
+      </button>
+    </div>
+  </div>
+  <div *ngIf="progress >= 99">
+    <span class="d-block font-weight-bold mt-3"
+      >Tempering Process complete.</span
+    >
+    <span class="d-block font-weight-bold mt-3"
+      >Initiate Checkout process?</span
+    >
+    <div class="mt-5 text-right">
+      <button
+        cButton
+        color="primary"
+        class="mr-3"
+        size="lg"
+        (click)="checkOutProcess()"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>

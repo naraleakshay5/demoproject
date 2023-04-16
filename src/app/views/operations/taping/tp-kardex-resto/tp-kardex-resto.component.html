@@ -1,0 +1,42 @@
+<div *ngIf="!sameSach">
+  <div>
+    <h5 class="font-weight-bold">Visit Kardex system</h5>
+  </div>
+
+  <div>
+    <span class="d-block">Sach number change detected.</span>
+    <span class="d-block"
+      >Please check resto quantity in the Kardex system <br />
+      for Sach :- <strong>{{ poData.sach_number }}</strong
+      >.</span
+    >
+  </div>
+
+  <div class="text-right mt-3">
+    <button cButton color="primary" size="lg" (click)="proceed()">
+      Proceed
+    </button>
+  </div>
+</div>
+
+<div *ngIf="sameSach">
+  <div>
+    <h5 class="font-weight-bold">Visit Kardex system</h5>
+  </div>
+  <div>
+    <span class="d-block"
+      >Please check resto quantity in the Kardex system.</span
+    >
+  </div>
+  <div class="text-right mt-3">
+    <button cButton color="primary" size="lg" (click)="proceed()">
+      Proceed
+    </button>
+  </div>
+</div>
+
+<!-- <span class="d-block">Select PO in screen near Kardex system.</span>
+<span class="d-block"
+  >Scans the barcode on PO as input to the Kardex system.</span
+>
+<span class="d-block">Take Resto box to Mechanical Inspection Kiosk.</span> -->

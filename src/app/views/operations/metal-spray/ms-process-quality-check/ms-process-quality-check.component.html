@@ -1,0 +1,189 @@
+<div class="header">
+  <h3>Process Quality Check</h3>
+  <div class="mt-2">
+    <span
+      >Please select three samples from the completed wheel and measure element
+      length.</span
+    >
+  </div>
+</div>
+
+<div>
+  <div>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th scope="col">Element</th>
+          <th scope="col">Length Range</th>
+          <th scope="col">Measured Element Length</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Inner</td>
+          <td class="text-center">
+            {{ processQuality?.inner_length?.min }}
+            -
+            {{ processQuality?.inner_length?.max }}
+          </td>
+          <td>
+            <input
+              type="text"
+              name=""
+              id=""
+              autofocus
+              (keyup)="checkInnerQuality($event)"
+            />
+          </td>
+          <td>
+            <div *ngIf="innerQualityIsChecked == true && innerQualityIsTouched">
+              <svg
+                class="checkMark"
+                cIcon
+                name="cil-check"
+                size="xl"
+                title="Check Mark Icon"
+              ></svg>
+            </div>
+            <div
+              *ngIf="innerQualityIsChecked == false && innerQualityIsTouched"
+            >
+              <i
+                class="bi bi-exclamation-triangle-fill text-warning me-1"
+                style="font-size: 25px"
+                data-container="body"
+                data-toggle="popover"
+                data-placement="top"
+                cTooltip="Length not matched."
+                cTooltipPlacement="top"
+                data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+              ></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mid</td>
+          <td class="text-center">
+            {{ processQuality?.mid_length?.min }}
+            -
+            {{ processQuality?.inner_length?.max }}
+          </td>
+          <td>
+            <input
+              type="text"
+              name=""
+              id=""
+              autofocus
+              (keyup)="checkMidQuality($event)"
+            />
+          </td>
+          <td>
+            <div *ngIf="midQualityIsChecked == true && midQualityIsTouched">
+              <svg
+                class="checkMark"
+                cIcon
+                name="cil-check"
+                size="xl"
+                title="Check Mark Icon"
+              ></svg>
+            </div>
+            <div *ngIf="midQualityIsChecked == false && midQualityIsTouched">
+              <i
+                class="bi bi-exclamation-triangle-fill text-warning me-1"
+                style="font-size: 25px"
+                data-container="body"
+                data-toggle="popover"
+                data-placement="top"
+                cTooltip="Length not matched."
+                cTooltipPlacement="top"
+                data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+              ></i>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Outer</td>
+          <td class="text-center">
+            {{ processQuality?.outer_length?.min }}
+            -
+            {{ processQuality?.outer_length?.max }}
+          </td>
+          <td>
+            <input
+              type="text"
+              name=""
+              id=""
+              autofocus
+              (keyup)="checkOuterQuality($event)"
+            />
+          </td>
+          <td>
+            <div *ngIf="outerQualityIsChecked == true && outerQualityIsTouched">
+              <svg
+                class="checkMark"
+                cIcon
+                name="cil-check"
+                size="xl"
+                title="Check Mark Icon"
+              ></svg>
+            </div>
+            <div
+              *ngIf="outerQualityIsChecked == false && outerQualityIsTouched"
+            >
+              <i
+                class="bi bi-exclamation-triangle-fill text-warning me-1"
+                style="font-size: 25px"
+                data-container="body"
+                data-toggle="popover"
+                data-placement="top"
+                cTooltip="Length not matched."
+                cTooltipPlacement="top"
+                data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+              ></i>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="text-right" *ngIf="poCheckoutStatus">
+  <button
+    cButton
+    color="primary"
+    size="lg"
+    [ngClass]="allQualityCheckIsDone ? 'btn-disabled' : ''"
+    [disabled]="!allQualityCheckIsDone"
+    (click)="proceedToCompletePo()"
+  >
+    Confirm and Proceed
+  </button>
+</div>
+
+<!-- kept for future use -->
+<div class="text-right mt-3">
+  <button
+    cButton
+    *ngIf="!enableProceedToCheckout && !poCheckoutStatus"
+    class="ml-1 mr-1"
+    color="primary"
+    size="lg"
+    [ngClass]="allQualityCheckIsDone ? 'btn-disabled' : ''"
+    [disabled]="!allQualityCheckIsDone"
+    (click)="nextToMetalSpray()"
+  >
+    Continue
+  </button>
+</div>
+
+<div *ngIf="enableModalPopup">
+  <app-pop-up-modal
+    (modalCheck)="modalConfirmationToCompletePo()"
+    (modalCheckCacelled)="modalConfirmationCanelled()"
+    title="Confirmation"
+    [text]="'Are you sure you want to complete the PO ?'"
+    [confirm]="'Confirm & Submit'"
+    [cancel]="'Cancel'"
+  ></app-pop-up-modal>
+</div>

@@ -1,0 +1,30 @@
+.card {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+}
+.card-body {
+  min-height: 350px;
+}
+label {
+  margin-bottom: 0px;
+}
+.section-1 {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  .img {
+    width: 275px;
+    border-radius: 10px;
+  }
+}
+.hideshow {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+}
+.hideShow {
+  max-height: 45px;
+  overflow: hidden;
+}

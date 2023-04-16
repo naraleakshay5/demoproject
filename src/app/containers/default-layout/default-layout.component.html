@@ -1,0 +1,336 @@
+<div class="hmi-size">
+  <!--sidebar-->
+  <c-sidebar
+    #sidebar="cSidebar"
+    class="d-print-none sidebar sidebar-fixed"
+    id="sidebar"
+    visible
+  >
+    <!-- width: 160, -->
+    <c-sidebar-brand
+      [brandFull]="{
+        src: 'assets/img/brand/tdk_base.svg',
+        height: 30,
+        alt: 'CoreUI Logo'
+      }"
+      [brandNarrow]="{
+        src: 'assets/img/brand/coreui-signet-white.svg',
+        width: 46,
+        height: 46,
+        alt: 'CoreUI Logo'
+      }"
+      routerLink="./"
+    >
+    </c-sidebar-brand>
+    <perfect-scrollbar [config]="perfectScrollbarConfig">
+      <c-card class="dps_sidebar_summary">
+        <c-card-body>
+          <!-- <h5 cCardTitle><strong>Shift 1</strong></h5>
+      <hr /> -->
+          <h6 cCardTitle>
+            DPS Network
+            <!-- <span
+          [cModalToggle]="healthModal.id"
+          [ngClass]="{
+            green: machineConnectionStatus == 'Connected',
+            red: machineConnectionStatus == 'Reconnecting'
+          }"
+          class="dot"
+        ></span> -->
+          </h6>
+          <h5 cCardTitle>
+            <strong>{{ machineConnectionStatus }}</strong>
+          </h5>
+          <hr />
+          <h6 cCardTitle>Machine Status</h6>
+          <h5 cCardTitle>
+            <strong>{{ machineRunningStatus }}</strong>
+          </h5>
+          <!-- <hr />
+      <h6 cCardTitle>Interlock</h6>
+      <h5 cCardTitle><strong>Unlocked</strong></h5> -->
+        </c-card-body>
+      </c-card>
+
+      <!-- <c-sidebar-nav [navItems]="navItems"> </c-sidebar-nav> -->
+
+      <div class="dps_sidebar_action_buttons">
+        <div class="d-grid gap-2">
+          <button
+            cButton
+            color="primary"
+            routerLink="/po-list"
+            *ngIf="environment.isTraining !== true"
+          >
+            <fa-icon [icon]="icons.home"></fa-icon>
+            Home
+          </button>
+          <button
+            cButton
+            color="primary"
+            routerLink="/training/hot-press/hotPress"
+            *ngIf="environment.isTraining === true"
+          >
+            <fa-icon [icon]="icons.home"></fa-icon>
+            Home
+          </button>
+          <button cButton color="primary" (click)="openAlarms()">Alarms</button>
+          <!-- <button cButton color="primary" routerLink="/batchcard">
+        Batch Card
+      </button> -->
+          <!-- <button cButton color="primary">Work Instructions</button>
+      <button cButton color="primary">Raise NC / CAPA</button>
+      <button cButton color="primary">Report Breakdown</button>
+      <button cButton color="primary">Report an Event</button> -->
+          <button [cModalToggle]="staticBackdropModal.id" cButton>
+            DPS Controls
+          </button>
+          <!-- <button [cModalToggle]="electrodeClean.id" cButton>electrode</button> -->
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <hr class="m-0" />
+    <div class="text-center m-2">
+      <img
+        class="img"
+        height="30"
+        src="../../../assets/images/spd_logo_1.PNG"
+        alt="img"
+      />
+      <!-- <h6 cCardTitle>Samprama DigiTek</h6> -->
+    </div>
+    <!-- <c-sidebar-nav
+  [navItems]="[
+    {
+      title: true,
+      name: 'date / time'
+    }
+  ]"
+></c-sidebar-nav> -->
+
+    <!-- <perfect-scrollbar [config]="perfectScrollbarConfig"> -->
+    <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
+    <!-- <c-sidebar-nav [navItems]="navItems"> </c-sidebar-nav> -->
+    <!-- </perfect-scrollbar> -->
+    <!-- <c-sidebar-toggler
+  *ngIf="!sidebar.narrow"
+  toggle="unfoldable"
+  cSidebarToggle="sidebar"
+></c-sidebar-toggler> -->
+  </c-sidebar>
+
+  <!--main-->
+  <div
+    class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent"
+  >
+    <!--app-header-->
+    <app-default-header
+      class="mb-2 d-print-none header header-sticky"
+      position="sticky"
+      sidebarId="sidebar"
+    ></app-default-header>
+
+    <!--app-body-->
+    <div class="body flex-grow-1">
+      <div breakpoint="lg" class="" style="margin-left: 10px">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <!--app footer-->
+    <app-default-footer></app-default-footer>
+  </div>
+  <!-- ****************************************************************** -->
+
+  <c-modal #healthModal backdrop="static" id="healthModal">
+    <c-modal-header>
+      <h5 cModalTitle>Network Health</h5>
+      <button [cModalToggle]="healthModal.id" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body></c-modal-body>
+    <c-modal-footer>
+      <button [cModalToggle]="healthModal.id" cButton color="primary">
+        Done
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <c-modal #staticBackdropModal backdrop="static" id="staticBackdropModal">
+    <c-modal-header>
+      <h5 cModalTitle>DPS Controls</h5>
+      <button [cModalToggle]="staticBackdropModal.id" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <div class="row">
+        <c-card class="col-6">
+          <c-card-body>
+            <div class="font-18-600">
+              <span
+                [ngClass]="{
+                  green: isRecipeRemote === true,
+                  red: isRecipeRemote === false
+                }"
+                class="dot"
+              ></span>
+              RECIPE REMOTE
+            </div>
+            <div class="mt-3">
+              <button
+                cButton
+                color="primary"
+                class="mr-3"
+                (click)="recipeRemote(true)"
+                [disabled]="isRecipeRemote"
+              >
+                SET
+              </button>
+              <button
+                cButton
+                color="primary"
+                [disabled]="!isRecipeRemote"
+                (click)="recipeRemote(false)"
+              >
+                UNSET
+              </button>
+            </div>
+          </c-card-body>
+        </c-card>
+        <c-card class="col-6">
+          <c-card-body>
+            <div class="font-18-600">
+              <span
+                [ngClass]="{
+                  green: isDpsBypass === true,
+                  red: isDpsBypass === false
+                }"
+                class="dot"
+              ></span>
+              DPS BYPASS
+            </div>
+            <div class="mt-3">
+              <button
+                cButton
+                color="primary"
+                class="mr-3"
+                [disabled]="isDpsBypass"
+                (click)="dpsControls(true)"
+              >
+                SET
+              </button>
+              <button
+                cButton
+                color="primary"
+                [disabled]="!isDpsBypass"
+                (click)="dpsControls(false)"
+              >
+                UNSET
+              </button>
+            </div>
+          </c-card-body>
+        </c-card>
+      </div>
+      <div class="row">
+        <c-card class="col-6">
+          <c-card-body>
+            <div class="font-18-600">
+              <span
+                [ngClass]="{
+                  green: isMaintence === true,
+                  red: isMaintence === false
+                }"
+                class="dot"
+              ></span>
+              MAINTENCE
+            </div>
+            <div class="mt-3">
+              <button
+                cButton
+                color="primary"
+                class="mr-3"
+                (click)="maintence(true)"
+                [disabled]="isMaintence"
+              >
+                SET
+              </button>
+              <button
+                cButton
+                color="primary"
+                (click)="maintence(false)"
+                [disabled]="!isMaintence"
+              >
+                UNSET
+              </button>
+            </div>
+          </c-card-body>
+        </c-card>
+        <c-card class="col-6">
+          <c-card-body>
+            <div class="font-18-600">
+              <span
+                [ngClass]="{
+                  green: isDryRunMode === true,
+                  red: isDryRunMode === false
+                }"
+                class="dot"
+              ></span>
+              DRY RUN MODE
+            </div>
+            <div class="mt-3">
+              <button
+                cButton
+                color="primary"
+                class="mr-3"
+                (click)="dpsDryRunMode(true)"
+                [disabled]="isDryRunMode"
+              >
+                SET
+              </button>
+              <button
+                cButton
+                color="primary"
+                (click)="dpsDryRunMode(false)"
+                [disabled]="!isDryRunMode"
+              >
+                UNSET
+              </button>
+            </div>
+          </c-card-body>
+        </c-card>
+      </div>
+    </c-modal-body>
+    <c-modal-footer>
+      <button [cModalToggle]="staticBackdropModal.id" cButton color="primary">
+        Done
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <!-- **************************************** electrode grinding ******************************************** -->
+  <c-modal
+    #electrodeClean
+    backdrop="static"
+    id="electrodeClean"
+    [visible]="electrode"
+  >
+    <c-modal-header>
+      <h5 cModalTitle>Electrode Grinding</h5>
+      <button [cModalToggle]="electrodeClean.id" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <span class="d-block">Please check Electrode condition.</span>
+      <span class="d-block">Please perfrom confrim electrode grinding. </span>
+    </c-modal-body>
+    <c-modal-footer>
+      <button [cModalToggle]="electrodeClean.id" cButton color="primary">
+        Done
+      </button>
+    </c-modal-footer>
+  </c-modal>
+
+  <!-- **************************************** electrode grinding ******************************************** -->
+
+  <app-common-jobs
+    [isAlarms]="isAlarm"
+    (modalCheckCacelled)="closeAlarms()"
+  ></app-common-jobs>
+</div>

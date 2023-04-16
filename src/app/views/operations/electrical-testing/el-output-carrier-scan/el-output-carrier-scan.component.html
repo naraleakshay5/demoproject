@@ -1,0 +1,63 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Output Good Bin</h5>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="isWrongBinScanned">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Invalid Bin scanned. Please scan correct Bin.</span>
+  </div>
+  <div class="mt-3">
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">Sr No</th>
+          <th class="col-2">Scanned Carrier Id(Bin)</th>
+          <th class="col-3">Scan Status</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="scannedBins.length > 0">
+        <tr *ngFor="let scannedBins of scannedBins; let i = index">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td>{{ scannedBins.name.split("AUTO_")[1] }}</td>
+          <td class="text-center">
+            <svg
+              class="checkMark"
+              cIcon
+              name="cil-check"
+              size="xl"
+              title="Check Mark Icon"
+            ></svg>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex" style="justify-content: space-between">
+    <div>
+      <span class="d-block font-weight-bold"
+        >Total output bins scanned: {{ scannedBins.length }}</span
+      >
+    </div>
+    <div>
+      <button cButton (click)="startScanning()" *ngIf="!is_btnDisabled">
+        Start Scanning
+      </button>
+      <button
+        cButton
+        class="ml-3"
+        (click)="proceed()"
+        [disabled]="!is_btnDisabled"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-scanner
+  *ngIf="isScanEnabled"
+  #appScanner
+  (scanModal)="checkScannedBin($event)"
+  (cancelScan)="cancelScan()"
+></app-scanner>

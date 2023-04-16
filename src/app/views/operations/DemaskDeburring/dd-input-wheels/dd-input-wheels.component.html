@@ -1,0 +1,45 @@
+<div class="header">
+  <h3>Input Wheels</h3>
+</div>
+<div>
+  <span>Please fetch required wheels for this PO and enter the details.</span>
+
+  <div>
+    <div class="mt-5">
+      <label for=""> Total Wheels Received</label>
+      <input class="input" type="number" [(ngModel)]="wheelCount" autofocus />
+    </div>
+
+    <div class="text-right mt-5">
+      <button
+        cButton
+        color="primary"
+        size="lg"
+        (click)="onWheelSubmit(wheelCount)"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-warning-pop-up-modal
+  *ngIf="enableWarningPopupModal"
+  title="Warning"
+  [text1]="modalMessage"
+  [text2]="'Required wheel count: ' + actualWheelCount"
+  [text3]="'Entered wheel count: ' + wheelCount"
+  [confirm]="'Re-Enter'"
+  [cancel]="'Report'"
+  (modalCheck)="reEnterWheelCount()"
+  (modalCheckCacelled)="report()"
+></app-warning-pop-up-modal>
+
+<app-success-pop-up-modal
+  *ngIf="enablePopupModal"
+  title="Successful"
+  text="All the wheels have been received for this PO."
+  [confirm]="'Proceed'"
+  (modalCheck)="proceedToInputWheelScan()"
+  (modalCheckCacelled)="modalCheckCancelled()"
+></app-success-pop-up-modal>

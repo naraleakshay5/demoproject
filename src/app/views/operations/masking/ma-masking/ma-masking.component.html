@@ -1,0 +1,151 @@
+<div>
+  <div>
+    <div>
+      <div class="mb-4">
+        <h3>Process Status</h3>
+      </div>
+      <div>
+        <div class="mb-2">
+          <label for="">#Wheel: {{ currentWheelCount }}</label>
+        </div>
+        <div class="mb-2">
+          <label for="">#Elements Processed: {{ elementsProcessed }}</label>
+        </div>
+        <div class="mb-2">
+          <label for=""
+            >#Elements To PO Completion : {{ remainingElements }}</label
+          >
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="text-right">
+          <span class="mr-2"> {{ progress }} %Completed</span>
+        </div>
+        <c-progress class="mb-3" [height]="20">
+          <c-progress-bar [value]="progress"></c-progress-bar>
+        </c-progress>
+        <!-- kept for future use for testing -->
+        <!-- <button
+          *ngIf="!(progress >= 100)"
+          cButton
+          color="primary"
+          size="lg"
+          (click)="incrementTheProgress()"
+        >
+          +
+        </button> -->
+        <button
+          *ngIf="proceedToSPCBtn"
+          cButton
+          color="primary"
+          size="lg"
+          (click)="inProcessQualityCheck()"
+        >
+          In-Process Quality Check
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-masking-rework-pop-up-modal
+    *ngIf="enableInProcessQualityCheckModal"
+    title="In-Process Quality Check Point"
+    [text]="'#Elements Processed: ' + elementsProcessed"
+    [text2]="'Ensure Omega shape/Centering/& tight masking of element.'"
+    [confirm]="'Confirm'"
+    [rework]="'Re-work'"
+    (modalCheck)="modalConfirmed()"
+    (modalCheckCacelled)="modalCancelled()"
+    (reworkCheck)="modalToRework()"
+  ></app-masking-rework-pop-up-modal>
+
+  <div *ngIf="wheelCompleted" class="wheel-action">
+    <div>
+      <div>
+        <span>Wheels completed: {{ currentWheelCount }}.</span>
+      </div>
+      <div>
+        <span> Do you want to process additional elements? </span>
+      </div>
+    </div>
+    <div class="mt-3 text-right">
+      <button
+        cButton
+        color="primary"
+        size="lg"
+        (click)="additionalWheelsToBeAdded()"
+      >
+        Yes
+      </button>
+
+      <button
+        cButton
+        color="secondary"
+        size="lg"
+        [ngClass]="
+          false && !(currentWheelCount == totalWheelsCount)
+            ? 'btn-disabled'
+            : ''
+        "
+        [disabled]="false && !(currentWheelCount == totalWheelsCount)"
+        (click)="noWheelsToBeProcessed()"
+      >
+        No, Complete PO
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="enableReworkModal">
+  <app-ma-pop-up-modal
+    title="Masking Re-work"
+    [text]="'Select type of Re-work required'"
+    [confirm]="'Submit'"
+    [cancel]="'Cancel'"
+    (modalCheck)="reworkModalConfirmed($event)"
+    (modalCheckCacelled)="reworkModalCanceled()"
+  ></app-ma-pop-up-modal>
+</div>
+
+<div *ngIf="enableMajorRework">
+  <app-masking-pop-up-modal
+    title="Masking Re-work - Major"
+    [text1]="'Remove the partially completed wheel.'"
+    [text2]="'De-tape masked wheel and put elements in bowl feeder.'"
+    [confirm]="'Confirm & Proceed'"
+    [cancel]="'Cancel'"
+    (modalCheck)="majorReworkModalConfirmed()"
+    (modalCheckCacelled)="reworkModalCanceled()"
+  ></app-masking-pop-up-modal>
+</div>
+
+<div *ngIf="enableMinorRework">
+  <app-masking-pop-up-modal
+    title="Masking Re-work - Minor"
+    [text1]="'Cut the portion of masking tape that requires rework.'"
+    [text2]="'Join the open ends by cellopane tape.'"
+    [text3]="
+      'De-tape the bad quality masking portion and put element in bowl feeder.'
+    "
+    [confirm]="'Confirm & Proceed'"
+    [cancel]="'Cancel'"
+    (modalCheck)="minorReworkModalConfirmed()"
+    (modalCheckCacelled)="reworkModalCanceled()"
+  ></app-masking-pop-up-modal>
+</div>
+
+<div *ngIf="enableWheelRemovalModal">
+  <app-pop-up-modal
+    title="Wheel Removal"
+    [text]="
+      'Please confirm you want to disassociate wheel ' +
+      wheelDetails.name.slice(10) +
+      ' from this ' +
+      poData.po
+    "
+    [confirm]="'Confirm & Proceed'"
+    [cancel]="'Cancel'"
+    (modalCheck)="wheelRemovalModalConfirmed()"
+    (modalCheckCacelled)="reworkModalCanceled()"
+  ></app-pop-up-modal>
+</div>

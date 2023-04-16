@@ -1,0 +1,194 @@
+<div class="scroll">
+  <div class="isLoadTrue">
+    <app-spinner-l2 [size]="'small'" *ngIf="isLoading"></app-spinner-l2>
+  </div>
+  <div [ngClass]="isLoading ? 'isLoadFalse' : ''">
+    <div>
+      <h5 class="font-weight-bold">Recipe Setup</h5>
+    </div>
+    <div
+      class="mt-3 p-3 success-card"
+      *ngIf="isSuccess && !errorMessage && loadrecipes.length > 0"
+    >
+      <span class="d-block font-weight-bold">Well Done!</span>
+      <span class="d-block"
+        >Recipe loaded successfully. Please make trail part and go to spc.</span
+      >
+    </div>
+    <div class="mt-3 p-3 Warning-card" *ngIf="errorMessage">
+      <span class="d-block font-weight-bold">Warning!</span>
+      <span class="d-block">{{ errorMessage }} </span>
+    </div>
+    <c-nav variant="tabs" class="mt-3">
+      <a
+        [active]="true"
+        [cTabContent]="tabContent"
+        [routerLink]
+        [tabPaneIdx]="0"
+        cNavLink
+        >Mains</a
+      >
+      <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
+        >Others</a
+      >
+    </c-nav>
+    <c-tab-content #tabContent="cTabContent">
+      <c-tab-pane class="table-scroll">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Tolerance Band</th>
+              <th scope="col">Reference Recipe</th>
+              <th scope="col">Loaded Recipe</th>
+              <th class="col-3">Set Recipe Parameter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loadrecipes of loadrecipes; let i = index">
+              <td>{{ loadrecipes.display_name }}</td>
+              <td class="text-center">
+                {{ loadrecipes.min_value }}-{{ loadrecipes.max_value }}
+              </td>
+              <td class="text-center">{{ loadrecipes.value }}</td>
+              <td class="text-center">{{ loadrecipes.loaded_value }}</td>
+              <td class="text-center">
+                <tr>
+                  <td class="w-25 text-center">
+                    <button
+                      cButton
+                      color="primary"
+                      [disabled]="!loadrecipes.isMinus"
+                      [ngClass]="!loadrecipes.isMinus ? 'btn-disabled' : ''"
+                      (click)="minus(i, 'main')"
+                    >
+                      <i class="bi bi-dash-lg"></i>
+                    </button>
+                  </td>
+                  <td class="w-50 text-center">{{ loadrecipes.set_recipe }}</td>
+                  <td class="w-25 text-center">
+                    <button
+                      cButton
+                      color="primary"
+                      [disabled]="!loadrecipes.isPlus"
+                      [ngClass]="!loadrecipes.isPlus ? 'btn-disabled' : ''"
+                      (click)="plus(i, 'main')"
+                    >
+                      <i class="bi bi-plus-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-tab-pane>
+      <c-tab-pane class="table-scroll">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Tolerance Band</th>
+              <th scope="col">Reference Recipe</th>
+              <th scope="col">Loaded Recipe</th>
+              <th class="col-3">Set Recipe Parameter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loadrecipes of loadrecipesOthers; let i = index">
+              <td>{{ loadrecipes.display_name }}</td>
+              <td class="text-center">
+                {{ loadrecipes.min_value }}-{{ loadrecipes.max_value }}
+              </td>
+              <td class="text-center">{{ loadrecipes.value }}</td>
+              <td class="text-center">{{ loadrecipes.loaded_value }}</td>
+              <td class="text-center">
+                <tr>
+                  <td class="w-25 text-center">
+                    <button
+                      cButton
+                      color="primary"
+                      [disabled]="!loadrecipes.isMinus"
+                      (click)="minus(i, 'others')"
+                    >
+                      <i class="bi bi-dash-lg"></i>
+                    </button>
+                  </td>
+                  <td class="w-50 text-center">{{ loadrecipes.set_recipe }}</td>
+                  <td class="w-25 text-center">
+                    <button
+                      cButton
+                      color="primary"
+                      [disabled]="!loadrecipes.isPlus"
+                      (click)="plus(i, 'others')"
+                    >
+                      <i class="bi bi-plus-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-tab-pane>
+    </c-tab-content>
+  </div>
+
+  <div class="text-right">
+    <button
+      cButton
+      class="ml-3"
+      (click)="gotoSpc()"
+      [disabled]="isLoading || !isSuccess"
+    >
+      Go TO SPC
+    </button>
+    <!-- <button
+      cButton
+      class="ml-3"
+      (click)="proceedTomakeTrialPart()"
+      [disabled]="isLoading || !isSuccess"
+    >
+      Proceed
+    </button> -->
+    <button
+      cButton
+      class="ml-3"
+      (click)="loadRecipe()"
+      *ngIf="!is_same"
+      [disabled]="isLoading"
+    >
+      Re-try Recipe Loading
+    </button>
+    <button
+      cButton
+      class="ml-3"
+      (click)="loadRecipe()"
+      [disabled]="isLoading || !isModify"
+    >
+      Modify Recipe Load
+    </button>
+  </div>
+</div>
+<div>
+  <app-modal-material
+    *ngIf="previousSachSame"
+    (materialModalCheck)="confirmModalToCompleteMaterialCheck()"
+    (materialModalCheckCancelled)="cancelAllRollScanned()"
+    title="Recipe"
+    [text]="'Do you want to use current Recipe?.'"
+    [confirm]="true"
+  ></app-modal-material>
+</div>
+
+<!-- <div>
+  <app-modal-material
+    *ngIf="makeTrialPart"
+    (materialModalCheck)="confirmModalToProceed()"
+    (materialModalCheckCancelled)="cancelToProceed()"
+    title="Making Trial Parts"
+    [text]="
+      'Please press the cycle start on machine to start producing trial parts. Every thing good then go to SPC.'
+    "
+  ></app-modal-material>
+</div> -->

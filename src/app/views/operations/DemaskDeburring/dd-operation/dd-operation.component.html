@@ -1,0 +1,57 @@
+<div>
+  <div>
+    <h3>Process Status</h3>
+    <div class="d-block">
+      <div class="d-flex">
+        <label for="">#Wheel Processed: {{ outputCarrierWheels.length }}</label>
+        <span class="font-weight-bold ml-3"></span>
+      </div>
+    </div>
+    <div class="progressBar">
+      <div class="d-flex" style="justify-content: space-between">
+        <span class="mr-2"> {{ progress }} %Completed</span>
+      </div>
+
+      <c-progress class="mb-3" [height]="20">
+        <c-progress-bar [value]="progress"></c-progress-bar>
+      </c-progress>
+      <div class="mt-5" *ngIf="progress !== 100">
+        <button
+          cButton
+          color="primary"
+          class="ml-3"
+          size="lg"
+          (click)="addNewWheel()"
+        >
+          Add new Wheel
+        </button>
+        <button cButton color="primary" size="lg" class="ml-3">
+          Replace O/P Carrier bin
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="progress === 100">
+    <div>
+      <span class="d-block font-weight-bold mt-3"
+        >All wheels for the PO are processed.</span
+      >
+    </div>
+    <div>
+      <span class="d-block font-weight-bold mt-1"
+        >Please initiate the Checkout process?</span
+      >
+    </div>
+    <div class="mt-5 text-right">
+      <button
+        cButton
+        color="primary"
+        class="mr-3"
+        size="lg"
+        (click)="checkOutProcess()"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>

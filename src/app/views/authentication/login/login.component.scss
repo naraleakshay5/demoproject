@@ -1,0 +1,17 @@
+.login-card {
+  background: white;
+  width: 40%;
+  min-height: 45vh;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px -10px;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+}
+
+.form-control.ng-invalid {
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+  background-image: none;
+}

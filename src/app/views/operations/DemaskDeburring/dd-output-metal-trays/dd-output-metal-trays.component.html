@@ -1,0 +1,64 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Scan Output Carriers</h5>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="scannedTray.length < 1">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Trays not scanned</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="!isWrongBinScanned">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Scanned Tray does not belong to current PO.</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="isAlreadyBinScanned == true">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Tray already scanned, please scan another Tray.</span>
+  </div>
+  <div class="mt-3">
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">Sr No</th>
+          <th class="col-2">Scanned Carrier Id(Tray)</th>
+          <th class="col-3">Scan Status</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="scannedTray.length > 0">
+        <tr *ngFor="let tray of scannedTray; let i = index">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td>{{ tray.name }}</td>
+          <td class="text-center">
+            <svg
+              class="checkMark"
+              cIcon
+              name="cil-check"
+              size="xl"
+              title="Check Mark Icon"
+            ></svg>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex" style="justify-content: space-between">
+    <div>
+      <span class="d-block font-weight-bold"
+        >Total output bins scanned: {{ scannedTray.length }}</span
+      >
+    </div>
+    <div>
+      <button cButton (click)="startScanning()" *ngIf="!isBtnDisabled">
+        Start Scanning
+      </button>
+      <button
+        cButton
+        class="ml-3"
+        (click)="proceed()"
+        [disabled]="!isBtnDisabled"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="header">
+  <h2>Required Materials</h2>
+</div>
+
+<div>
+  <div class="span">
+    <span class="span"
+      >Please fetch required materials for this PO and confirm in the DPS</span
+    >
+  </div>
+
+  <table cTable>
+    <thead class="text-center">
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Item Id</th>
+        <th scope="col">Tape Color</th>
+        <th scope="col">Enter Batch Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="m2-1 mb-1"
+        *ngFor="let index of materialDetails; let i = index"
+      >
+        <td>
+          {{
+            index?.material_name == "cello_tape_id"
+              ? "Cello Tape"
+              : index?.material_name == "masking_tape"
+              ? "Masking Tape"
+              : ""
+          }}
+        </td>
+        <td>{{ index?.material_code }}</td>
+        <td>
+          <select
+            aria-label="Default select example"
+            cSelect
+            #mySelect
+            (change)="onTapeColorSelected(mySelect.value, index)"
+          >
+            <option>Open this select menu</option>
+            <option value="{{ item }}" *ngFor="let item of index.tape_colors">
+              {{ item }}
+            </option>
+          </select>
+        </td>
+        <td class="pd-2 input">
+          <input type="text" autofocus />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="text-right">
+  <button
+    cButton
+    color="primary"
+    size="lg"
+    [ngClass]="isAllMaterialSelected ? 'btn-disabled' : ''"
+    [disabled]="!isAllMaterialSelected"
+    (click)="proceedToCompleteMaterialCheck()"
+  >
+    Confirm and Proceed
+  </button>
+</div>

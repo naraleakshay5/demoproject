@@ -1,0 +1,59 @@
+<div class="header">
+  <h3>Batch Summary</h3>
+</div>
+
+<div class="main-div">
+  <div>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Total good Capacitor Count</label>
+      <input
+        class="w-25 mb-3 form-control good-count"
+        type="number"
+        [(ngModel)]="goodElementCount"
+        disabled
+      />
+    </div>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Total Output Bins Count</label>
+      <input
+        class="w-25 mb-3 form-control good-bin"
+        type="number"
+        [(ngModel)]="outputScannedBins"
+        disabled
+      />
+    </div>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Total rejected Capacitor Count</label>
+      <input
+        class="w-25 mb-3 form-control reject-count"
+        type="number"
+        [(ngModel)]="rejectedElementCount"
+        disabled
+      />
+    </div>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Total Rejected Bins Count</label>
+      <input
+        class="w-25 mb-3 form-control reject-bin"
+        type="number"
+        [(ngModel)]="rejectedScannedBins"
+        disabled
+      />
+    </div>
+  </div>
+</div>
+
+<div class="text-right mt-3">
+  <button cButton class="ml-3" (click)="proceed()">Proceed</button>
+</div>
+
+<div *ngIf="enablePopupModal">
+  <app-pop-up-modal
+    title="Batch Summary"
+    [text]="'Please inform Supervisor'"
+    [confirm]="'Confirm & Proceed'"
+    [cancel]="'Cancel'"
+    (modalCheck)="modalConfirmed()"
+    (modalCheckCacelled)="modalCanceled()"
+  ></app-pop-up-modal>
+</div>

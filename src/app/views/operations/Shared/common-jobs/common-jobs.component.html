@@ -1,0 +1,113 @@
+<!-- ******************* Alarms start*************************** -->
+<!-- <div class="dps_sidebar_action_buttons">
+  <div class="d-grid gap-2">
+</div>
+</div> -->
+<c-modal
+  #Alarms
+  alignment="center"
+  id="alarms"
+  backdrop="static"
+  [visible]="isAlarms"
+>
+  <div class="p-4">
+    <div>
+      <h5 cModalTitle class="font-weight-bold">Alarms</h5>
+      <button
+        [cModalToggle]="Alarms.id"
+        cButtonClose
+        class="cross-btn"
+        (click)="toggleVisibility()"
+      ></button>
+    </div>
+
+    <div *ngIf="alarmsCuring.length > 0">
+      <c-alert
+        color="danger"
+        class="d-flex align-items-center"
+        *ngFor="let alarm of alarmsCuring"
+      >
+        <svg
+          class="bi flex-shrink-0 me-2"
+          width="24"
+          height="24"
+          role="img"
+          aria-label="Info:"
+          [cIcon]="icons.cilWarning"
+        >
+          <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div>{{ alarm.alarm }}</div>
+      </c-alert>
+      <div class="text-right mt-3">
+        <button
+          [disabled]="isDisebled"
+          cButton
+          color="secondary"
+          (click)="reset('curing')"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+    <div *ngIf="alarms.length > 0" class="mt-2">
+      <c-alert
+        color="danger"
+        class="d-flex align-items-center"
+        *ngFor="let alarm of alarms"
+      >
+        <svg
+          class="bi flex-shrink-0 me-2"
+          width="24"
+          height="24"
+          role="img"
+          aria-label="Info:"
+          [cIcon]="icons.cilWarning"
+        >
+          <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div>{{ alarm.alarm }}</div>
+      </c-alert>
+      <div class="text-right mt-3">
+        <button
+          [disabled]="isDisebled"
+          cButton
+          color="secondary"
+          (click)="reset('assembly')"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+  </div>
+</c-modal>
+<!-- *******************Alarms end*************************** -->
+
+<!-- *******************scanner start*************************** -->
+<c-modal
+  class="scanner"
+  id="liveDemoModal"
+  [visible]="isOpen"
+  backdrop="static"
+>
+  <c-modal-header>
+    <h5 cModalTitle>Scan</h5>
+    <button cButtonClose (click)="toggleVisibilityScanner()"></button>
+  </c-modal-header>
+  <div>
+    <c-modal-body>
+      <input
+        id="getInputValue"
+        class="input-box"
+        type="text"
+        name="barCode"
+        #scanInput
+        autofocus
+        (keyup)="getInputValue()"
+        [(ngModel)]="barCode"
+        autocomplete="off"
+      />
+    </c-modal-body>
+  </div>
+</c-modal>
+<!-- *******************scanner end*************************** -->

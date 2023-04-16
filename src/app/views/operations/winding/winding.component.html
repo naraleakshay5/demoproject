@@ -1,0 +1,29 @@
+<div class="header-content po-card">
+  <div class="row">
+    <div class="col-6">PO#: {{ poData.po_number }}</div>
+    <div class="col-6">SachId: {{ poData.sach_number }}</div>
+  </div>
+</div>
+<div class="continer-fluid">
+  <div class="row w-100" style="margin: 0px">
+    <div class="side-menu po-card">
+      <ol cListGroup>
+        <li
+          cListGroupItem
+          class="is_Process"
+          *ngFor="let poStage of poStages; let i = index"
+        >
+          <!-- [ngClass]="{
+          is_Complete: poStage?.stage_status === 'completed',
+          is_Process: poStage?.stage_status === 'in_process'
+        }" -->
+          {{ poStage.stage_name }}
+        </li>
+      </ol>
+    </div>
+
+    <div class="main-content po-card" style="overflow-x: hidden">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

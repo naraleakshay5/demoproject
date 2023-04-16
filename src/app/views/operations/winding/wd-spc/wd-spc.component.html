@@ -1,0 +1,96 @@
+<div class="p-3">
+  <div>
+    <h5 class="font-weight-bold">SPC result</h5>
+  </div>
+  <div *ngIf="!isResult">
+    <div class="mt-3 p-3 Warning-card">
+      <span class="d-block font-weight-bold">Warning:</span>
+      <span class="d-block">Please wait for spc result.</span>
+    </div>
+    <div style="margin-top: 100px">
+      <app-spinner-l2 [size]="'medium'"></app-spinner-l2>
+    </div>
+    <div class="text-right">
+      <!-- button for devlopment -->
+      <button cButton class="" (click)="next()">Proceed</button>
+    </div>
+  </div>
+  <div *ngIf="isResult">
+    <div class="mt-3 p-3 success-card" *ngIf="isResultSuccessfully">
+      <span class="d-block font-weight-bold">Well Done!</span>
+      <span class="d-block">SPC test complete. </span>
+    </div>
+    <div class="mt-3 p-3 Warning-card" *ngIf="!isResultSuccessfully">
+      <span class="d-block font-weight-bold">Opps!</span>
+      <span class="d-block">SPC test Fail. </span>
+    </div>
+
+    <div>
+      <!-- <div class="d-flex">
+        <label for="" class="mrt">Capacitance Setup:-</label>
+        <input class="w-25 mb-3 form-control bins-count" type="number" />
+      </div> -->
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th scope="col" class="col-4">Parameter</th>
+            <th scope="col" class="col-3">Tolerance Band</th>
+            <th scope="col">Sample 1</th>
+            <th scope="col">Sample 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of measurement; let i = index">
+            <td class="col-4">{{ item?.param_name }}</td>
+            <td class="text-center">{{ item?.min }}-{{ item?.max }}</td>
+            <td class="text-center">
+              {{ item?.sample1 }}
+            </td>
+            <td class="text-center">
+              {{ item?.sample2 }}
+            </td>
+            <td>
+              <div class="text-center">
+                <label
+                  for="not_ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  *ngIf="!item?.is_sample_1 || !item?.is_sample_2"
+                  ><i
+                    class="bi bi-hand-thumbs-down-fill"
+                    [ngClass]="
+                      !item?.is_sample_1 || !item?.is_sample_2 ? 'not_ok' : ''
+                    "
+                  ></i
+                ></label>
+                <label
+                  for="ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  *ngIf="item?.is_sample_1 && item?.is_sample_2"
+                  ><i
+                    class="bi bi-hand-thumbs-up-fill"
+                    [ngClass]="
+                      item?.is_sample_1 && item?.is_sample_2 ? 'ok' : ''
+                    "
+                  ></i
+                ></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <button
+          cButton
+          btn
+          color="primary"
+          (click)="proceed()"
+          [disabled]="!disabledBtn"
+        >
+          Submit
+        </button>
+        <!-- button for devlopment -->
+        <!-- <button cButton class="" (click)="proceed()">Proceed</button> -->
+      </div>
+    </div>
+  </div>
+</div>

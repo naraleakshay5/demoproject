@@ -1,0 +1,63 @@
+<div class="container-fluid header-content card">
+  <div class="row">
+    <div class="col-6">PO#:</div>
+    <div class="col-6">Stage:</div>
+  </div>
+  <div class="row">
+    <div class="col-6">SachId:</div>
+    <div class="col-6">Status: In-Progress</div>
+  </div>
+</div>
+
+<div class="continer-fluid">
+  <div class="row">
+    <div class="menu card p-5">
+      <div>
+        <h4 class="font-weight-bold">PRE-HEATING</h4>
+
+        <div *ngIf="isCheck">
+          <div class="d-flex mt-5" style="justify-content: space-between">
+            <span>Estimated time of Completion(ETC): 80sec </span>
+            <span class="mr-2"> {{ progress }} %Completed</span>
+          </div>
+          <c-progress class="mb-3" [height]="20">
+            <c-progress-bar [value]="progress"></c-progress-bar>
+          </c-progress>
+          <button
+            cButton
+            color="primary"
+            (click)="incrementTheProgress()"
+            *ngIf="!isProgressCompleted"
+          >
+            +
+          </button>
+        </div>
+        <div class="mt-3">
+          <button cButton color="primary" *ngIf="!isCheck" (click)="checkIn()">
+            Check-In
+          </button>
+        </div>
+        <div class="mt-5" *ngIf="isCheck">
+          <span class="d-block mt-3">
+            Please remove trays from pre-heating oven and confirm.
+            <input
+              type="checkbox"
+              class="check-box"
+              (change)="onCheck($event)"
+              [disabled]="!isCheck"
+            />
+          </span>
+          <button
+            cButton
+            color="primary"
+            [disabled]="!isCheckOut"
+            (click)="checkOut()"
+            class="mt-3"
+          >
+            Check-Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

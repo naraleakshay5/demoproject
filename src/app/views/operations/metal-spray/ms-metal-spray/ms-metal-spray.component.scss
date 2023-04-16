@@ -1,0 +1,69 @@
+.g1Wheel {
+  width: 205px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 129px;
+  height: 205px;
+  justify-content: center;
+  text-align: center;
+}
+
+.g2Wheel {
+  width: 205px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 129px;
+  height: 205px;
+  justify-content: center;
+  text-align: center;
+}
+
+.loading {
+  width: 205px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 0px 10px 10px 185px;
+  border-radius: 129px;
+  height: 205px;
+  justify-content: center;
+  text-align: center;
+}
+
+.wheel {
+  display: flex;
+  justify-content: space-between;
+}
+.content {
+  margin-top: 25px;
+  font-size: 20px;
+}
+
+.front-box {
+  border: 1px solid grey;
+  padding: 10px;
+  margin: 5px;
+  width: 60px;
+  background-color: #8dfcb2;
+}
+
+.rear-box {
+  border: 1px solid grey;
+  padding: 10px;
+  margin: 5px;
+  width: 60px;
+  background-color: #c1dfff;
+}
+
+.box {
+  display: flex;
+}
+
+.is-Front {
+  background-color: #8dfcb2;
+}
+
+.is-Rear {
+  background-color: #c1dfff;
+}

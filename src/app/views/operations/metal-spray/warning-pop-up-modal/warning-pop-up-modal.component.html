@@ -1,0 +1,28 @@
+<c-modal class="modal" id="liveDemoModal" [visible]="visible">
+  <c-modal-header class="modal-header">
+    <i
+      class="bi bi-exclamation-triangle-fill text-warning me-1"
+      style="font-size: 25px"
+      data-container="body"
+      data-toggle="popover"
+      data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+    ></i>
+    <h5 cModalTitle>{{ title }}</h5>
+    <button cButtonClose (click)="toggleVisibility()"></button>
+  </c-modal-header>
+  <c-modal-body class="modal-body"
+    >{{ text1 }}
+    <br />
+    {{ text2 }}
+    <br />
+    {{ text3 }}
+  </c-modal-body>
+  <c-modal-footer class="modal-footer">
+    <button (click)="modalConfirmed()" cButton color="primary">
+      {{ confirm }}
+    </button>
+    <button (click)="toggleVisibility()" cButton color="secondary">
+      {{ cancel }}
+    </button>
+  </c-modal-footer>
+</c-modal>

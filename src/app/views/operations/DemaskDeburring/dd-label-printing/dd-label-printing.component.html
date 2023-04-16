@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <h3>Print Labels</h3>
+  </div>
+
+  <div>
+    <div class="d-flex mt-3">
+      <label class="label" for="">Total Trays Count</label>
+      <input
+        class="w-25 mb-3 form-control bins-count"
+        type="number"
+        [(ngModel)]="trayCount"
+        disabled=""
+      />
+    </div>
+    <div class="d-flex">
+      <label class="label" for="">Temperature</label>
+      <input
+        class="w-25 ml-4 mb-3 form-control temperature"
+        type="number"
+        [(ngModel)]="temperature"
+        disabled=""
+      />
+    </div>
+  </div>
+
+  <div>
+    <button cButton color="primary" size="lg" (click)="printLabel()">
+      Print
+    </button>
+
+    <button cButton color="secondary" size="lg" class="ml-3">Cancel</button>
+  </div>
+</div>

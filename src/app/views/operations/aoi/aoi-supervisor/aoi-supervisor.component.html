@@ -1,0 +1,23 @@
+<div *ngIf="!showDiv" class="sup-full-main-content po-card">
+  <div class="main-body">
+    <div class="upper-div">
+      <div (click)="sorting()" class="box Warning-card">
+        <h3>Sorting</h3>
+      </div>
+      <div (click)="processor()" class="box Warning-card">
+        <h3>Processor</h3>
+      </div>
+    </div>
+    <div class="upper-div">
+      <div (click)="data()" class="box Warning-card">
+        <h3>Data</h3>
+      </div>
+      <div (click)="checkout()" class="box Warning-card">
+        <h3>Checkout</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showDiv" class="sup-full-main-content po-card">
+  <router-outlet></router-outlet>
+</div>

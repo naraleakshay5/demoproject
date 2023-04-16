@@ -1,0 +1,129 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Tool Change Over</h5>
+  </div>
+
+  <div *ngIf="!isAmmo && !isReel">
+    <div class="mt-5">
+      <h6 class="font-weight-bold">System detected Packing type:</h6>
+      <div class="row mt-2">
+        <div class="col-5 m-3 white-card" (click)="ammoPacking()">
+          <div class="w-75 m-3 font-weight-bold">Ammo Packing</div>
+        </div>
+        <div class="col-5 m-3 white-card" (click)="reelPacking()">
+          <div class="w-75 m-3 font-weight-bold">Reel Packing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isAmmo">
+    <span> Please select appropriate tools below: </span>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3"></th>
+          <th class="col-2">Required</th>
+          <th class="col-3">Actual</th>
+          <th class="col-1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Index wheel</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Embossing tool</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Folding tool</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Crimping Jaw</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Starightner Guide</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Stretch Knife</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Staightening jaw</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Transfer Jig (clipper)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Taping Guide plate</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Punch Guide</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-right mt-3">
+      <button cButton color="primary" size="lg" (click)="proceed('ammo')">
+        Proceed
+      </button>
+    </div>
+  </div>
+  <div *ngIf="isReel">
+    <span> Please select appropriate tools below: </span>
+    <div class="mt-2">
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th class="col-3"></th>
+            <th class="col-2">Required</th>
+            <th class="col-3">Actual</th>
+            <th class="col-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td>Reel packing trolley</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="text-right mt-3">
+        <button cButton color="primary" size="lg" (click)="proceed('reel')">
+          Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

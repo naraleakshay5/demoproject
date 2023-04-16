@@ -1,0 +1,367 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Impulse Test Results</h5>
+  </div>
+  <div class="white-card p-2">
+    <div class="row">
+      <div class="col-6">
+        C at 1KHz uF:- {{ afterImpulseTestParameter?.Cat1khz }}
+      </div>
+      <div class="col-3">HL:- {{ afterImpulseTestParameter?.highLmt }}</div>
+      <div class="col-3">LL:- {{ afterImpulseTestParameter?.lowLmt }}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        TanD 1KHz:- {{ afterImpulseTestParameter?.TanD1khz }}
+      </div>
+      <!-- <div
+        class="col-6"
+        *ngIf="
+          afterImpulseTestParameter?.TanD10khz != null &&
+          afterImpulseTestParameter?.TanD10khz != ''
+        "
+      >
+        TanD 10KHz:- {{ afterImpulseTestParameter?.TanD10khz }}
+      </div> -->
+      <div
+        class="col-6"
+        *ngIf="
+          afterImpulseTestParameter?.TanD100khz != null &&
+          afterImpulseTestParameter?.TanD100khz != ''
+        "
+      >
+        TanD 100KHz:- {{ afterImpulseTestParameter?.TanD100khz }}
+      </div>
+    </div>
+  </div>
+  <c-nav variant="tabs" class="mt-2">
+    <a
+      [active]="true"
+      [cTabContent]="tabContent"
+      [routerLink]
+      [tabPaneIdx]="0"
+      cNavLink
+      >Before</a
+    >
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
+      >After</a
+    >
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="">
+      <div style="overflow: auto">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th scope="col-3">Parameter</th>
+              <th class="col-1">S1</th>
+              <th class="col-1">S2</th>
+              <th class="col-1">S3</th>
+              <th class="col-1">S4</th>
+              <th class="col-1">S5</th>
+              <th class="col-1">S6</th>
+              <th class="col-1">S7</th>
+              <th class="col-1">S8</th>
+              <th class="col-1">S9</th>
+              <th class="col-1">S10</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let item of beforeImpulseResult; let i = index">
+              <td class="col-3">
+                {{ item.parameter }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample1, item.parameter)">
+                {{ getValue(item.results.sample1, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample2, item.parameter)">
+                {{ getValue(item.results.sample2, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample3, item.parameter)">
+                {{ getValue(item.results.sample3, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample4, item.parameter)">
+                {{ getValue(item.results.sample4, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample5, item.parameter)">
+                {{ getValue(item.results.sample5, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample6, item.parameter)">
+                {{ getValue(item.results.sample6, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample7, item.parameter)">
+                {{ getValue(item.results.sample7, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample8, item.parameter)">
+                {{ getValue(item.results.sample8, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample9, item.parameter)">
+                {{ getValue(item.results.sample9, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample10, item.parameter)">
+                {{ getValue(item.results.sample10, item.parameter) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-right">
+        <button
+          cButton
+          color="primary"
+          size="lg"
+          [cModalToggle]="beforeImpulseTest.id"
+        >
+          View Details
+        </button>
+        <button
+          cButton
+          color="primary"
+          class="ml-2"
+          size="lg"
+          (click)="proceed()"
+        >
+          Proceed
+        </button>
+      </div>
+    </c-tab-pane>
+    <c-tab-pane class="">
+      <div style="overflow: auto">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th scope="col-3">Parameter</th>
+              <th class="col-1">S1</th>
+              <th class="col-1">S2</th>
+              <th class="col-1">S3</th>
+              <th class="col-1">S4</th>
+              <th class="col-1">S5</th>
+              <th class="col-1">S6</th>
+              <th class="col-1">S7</th>
+              <th class="col-1">S8</th>
+              <th class="col-1">S9</th>
+              <th class="col-1">S10</th>
+            </tr>
+          </thead>
+          <tbody class="text-center"></tbody>
+          <tbody class="text-center">
+            <tr *ngFor="let item of afterImpulseResult; let i = index">
+              <td class="col-3">
+                {{ item.parameter }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample1, item.parameter)">
+                {{ getValue(item.results.sample1, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample2, item.parameter)">
+                {{ getValue(item.results.sample2, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample3, item.parameter)">
+                {{ getValue(item.results.sample3, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample4, item.parameter)">
+                {{ getValue(item.results.sample4, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample5, item.parameter)">
+                {{ getValue(item.results.sample5, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample6, item.parameter)">
+                {{ getValue(item.results.sample6, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample7, item.parameter)">
+                {{ getValue(item.results.sample7, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample8, item.parameter)">
+                {{ getValue(item.results.sample8, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample9, item.parameter)">
+                {{ getValue(item.results.sample9, item.parameter) }}
+              </td>
+              <td [ngClass]="getClassOf(item.results.sample10, item.parameter)">
+                {{ getValue(item.results.sample10, item.parameter) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-right">
+        <button
+          cButton
+          color="primary"
+          size="lg"
+          [cModalToggle]="afterImpulseTest.id"
+        >
+          View Details
+        </button>
+        <button
+          cButton
+          color="primary"
+          class="ml-2"
+          size="lg"
+          (click)="proceed()"
+        >
+          Proceed
+        </button>
+      </div>
+    </c-tab-pane>
+  </c-tab-content>
+</div>
+
+<!-- ******************* impulse test start*************************** -->
+<c-modal #beforeImpulseTest id="beforeImpulseTest" backdrop="static" size="xl">
+  <div class="p-4">
+    <div>
+      <h5 cModalTitle class="font-weight-bold">Before Impulse Test Results</h5>
+      <button
+        [cModalToggle]="beforeImpulseTest.id"
+        cButtonClose
+        class="cross-btn"
+      ></button>
+    </div>
+    <div style="overflow: auto">
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th scope="col-3">Parameter</th>
+            <th class="col-1">S1</th>
+            <th class="col-1">S2</th>
+            <th class="col-1">S3</th>
+            <th class="col-1">S4</th>
+            <th class="col-1">S5</th>
+            <th class="col-1">S6</th>
+            <th class="col-1">S7</th>
+            <th class="col-1">S8</th>
+            <th class="col-1">S9</th>
+            <th class="col-1">S10</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let item of beforeImpulseResult; let i = index">
+            <td class="col-3">
+              {{ item.parameter }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample1, item.parameter)">
+              {{ item.results.sample1 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample2, item.parameter)">
+              {{ item.results.sample2 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample3, item.parameter)">
+              {{ item.results.sample3 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample4, item.parameter)">
+              {{ item.results.sample4 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample5, item.parameter)">
+              {{ item.results.sample5 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample6, item.parameter)">
+              {{ item.results.sample6 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample7, item.parameter)">
+              {{ item.results.sample7 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample8, item.parameter)">
+              {{ item.results.sample8 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample9, item.parameter)">
+              {{ item.results.sample9 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample10, item.parameter)">
+              {{ item.results.sample10 }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-right mt-3">
+      <!-- <button
+      cButton
+      color="primary"
+      class="mr-3"
+      (click)="proceedVisualInspection()"
+    >
+      Proceed
+    </button> -->
+      <button [cModalToggle]="beforeImpulseTest.id" cButton color="secondary">
+        Close
+      </button>
+    </div>
+  </div>
+</c-modal>
+<!-- ******************* impulse test  end*************************** -->
+
+<!-- ******************* impulse test start*************************** -->
+<c-modal #afterImpulseTest id="afterImpulseTest" backdrop="static" size="xl">
+  <div class="p-4">
+    <div>
+      <h5 cModalTitle class="font-weight-bold">Before Impulse Test Results</h5>
+      <button
+        [cModalToggle]="afterImpulseTest.id"
+        cButtonClose
+        class="cross-btn"
+      ></button>
+    </div>
+    <div style="overflow: auto">
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th scope="col-3">Parameter</th>
+            <th class="col-1">S1</th>
+            <th class="col-1">S2</th>
+            <th class="col-1">S3</th>
+            <th class="col-1">S4</th>
+            <th class="col-1">S5</th>
+            <th class="col-1">S6</th>
+            <th class="col-1">S7</th>
+            <th class="col-1">S8</th>
+            <th class="col-1">S9</th>
+            <th class="col-1">S10</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let item of afterImpulseResult; let i = index">
+            <td class="col-3">
+              {{ item.parameter }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample1, item.parameter)">
+              {{ item.results.sample1 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample2, item.parameter)">
+              {{ item.results.sample2 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample3, item.parameter)">
+              {{ item.results.sample3 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample4, item.parameter)">
+              {{ item.results.sample4 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample5, item.parameter)">
+              {{ item.results.sample5 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample6, item.parameter)">
+              {{ item.results.sample6 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample7, item.parameter)">
+              {{ item.results.sample7 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample8, item.parameter)">
+              {{ item.results.sample8 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample9, item.parameter)">
+              {{ item.results.sample9 }}
+            </td>
+            <td [ngClass]="getClassOf(item.results.sample10, item.parameter)">
+              {{ item.results.sample10 }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-right mt-3">
+      <button [cModalToggle]="afterImpulseTest.id" cButton color="secondary">
+        Close
+      </button>
+    </div>
+  </div>
+</c-modal>
+<!-- ******************* impulse test  end*************************** -->

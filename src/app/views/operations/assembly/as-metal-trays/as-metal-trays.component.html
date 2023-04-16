@@ -1,0 +1,91 @@
+<div class="mt-3" *ngIf="!isLoading">
+  <div>
+    <div>
+      <h5 class="font-weight-bold">Metal trays Scanning</h5>
+    </div>
+    <div>
+      <!-- // IMP code currently i used dummy code -->
+
+      <!-- <div class="mt-3 p-3 Warning-card">
+        <span class="d-block font-weight-bold">Warning:</span>
+        <span class="d-block">Please wait for operator to finish Scanning</span>
+      </div> -->
+      <!-- <div style="margin-top: 100px">
+        <app-spinner-l2 [size]="'medium'" *ngIf="isLoading"></app-spinner-l2>
+      </div> -->
+    </div>
+    <span class="d-block mt-3">
+      Please scan metal trays using handheld scanner before <br />
+      pouring elements in bowl feeder..
+    </span>
+    <div class="mt-3">
+      <!-- <span class="d-block"> Metal trays are scanned.</span>
+      <span class="d-block"> Pour trays into bowl feeder. </span> -->
+      <div class="mt-2">
+        <span class="d-block font-weight-bold"> Trays: </span>
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th class="col-2">Sr.No</th>
+              <th class="col-3">Trays id</th>
+              <th class="col-3">Scan Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let tray of trays; let i = index"
+              [ngStyle]="{ background: tray.isUsed == true ? '#e1e1e1' : '' }"
+            >
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ tray.name.split("AUTO_")[1] }}</td>
+              <td class="text-center">
+                <div *ngIf="tray?.isUsed">
+                  <svg
+                    class="checkMark"
+                    cIcon
+                    name="cil-check"
+                    size="xl"
+                    title="Check Mark Icon"
+                  ></svg>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button cButton (click)="createJob()">Scan</button>
+    <button cButton (click)="proceed()" class="ml-2">Proceed</button>
+  </div>
+</div>
+
+<div *ngIf="isLoading">
+  <div>
+    <h5 class="font-weight-bold">Metal trays Scanning</h5>
+  </div>
+  <div class="mt-3 p-3 alert alert-info" *ngIf="!is_wait && !is_wrong">
+    <span class="d-block font-weight-bold">Info:</span>
+    <span class="d-block">Please wait Scanning inProcess</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="is_wait && !is_wrong">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Please wait for operator to finish Scanning</span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="is_wrong">
+    <span class="d-block font-weight-bold">Warning:</span>
+    <span class="d-block">Wrong scanned plastic can box.</span>
+  </div>
+  <div style="margin-top: 100px">
+    <app-spinner-l2 [size]="'medium'" *ngIf="isLoading"></app-spinner-l2>
+  </div>
+  <div class="text-right">
+    <button cButton class="ml-3" (click)="createJob()" *ngIf="is_wrong">
+      Rescan
+    </button>
+    <button cButton class="ml-3" (click)="completeJob()" *ngIf="!is_wrong">
+      Check
+    </button>
+  </div>
+</div>

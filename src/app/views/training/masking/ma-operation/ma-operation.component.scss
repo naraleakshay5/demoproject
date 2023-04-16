@@ -1,0 +1,73 @@
+.btn {
+  margin: 3px;
+  margin-top: 2px;
+}
+
+.span {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.header {
+  margin-bottom: 30px;
+  border: none !important;
+}
+
+.input-disabled {
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1;
+  background-color: white;
+}
+
+.scanner {
+  margin-top: 250px;
+}
+
+.modal-body {
+  height: 85px;
+}
+
+.input-box {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  text-align: left !important;
+}
+
+.wheel-action {
+  margin-top: 55px;
+}
+
+.modal {
+  margin-top: 200px;
+}
+
+.modal-body {
+  height: 100px;
+}
+
+.rework {
+  width: 220px;
+  border: 1px solid grey;
+  padding: 15px;
+  margin: 10px;
+}
+
+.main-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal {
+  margin-top: 200px;
+}
+
+.modal-body {
+  height: 200px;
+}
+
+.modal-header {
+  height: 80px;
+}

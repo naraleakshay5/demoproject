@@ -1,0 +1,30 @@
+.checkMark {
+  color: green;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.checkNotMark {
+  color: red;
+  text-align: center;
+  margin-top: 8px;
+}
+
+button:disabled {
+  background-color: #ebedef;
+  color: black;
+  border: none;
+}
+
+.header {
+  margin-bottom: 20px !important;
+  border: none !important;
+}
+
+.span {
+  margin-bottom: 12px;
+}
+
+.table {
+  text-align: center;
+}

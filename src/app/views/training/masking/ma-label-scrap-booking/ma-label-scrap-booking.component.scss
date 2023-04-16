@@ -1,0 +1,110 @@
+.header {
+  margin-bottom: 30px;
+  border: none !important;
+}
+
+.btn {
+  margin: 5px;
+}
+
+input {
+  text-align: right;
+}
+
+.form-control.ng-valid {
+  background-image: none;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+}
+
+.bins-count {
+  margin-left: 58px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.full-wheel-count {
+  margin-left: 68px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.partial-wheel-count {
+  margin-left: 46px;
+  padding: 0px;
+  background-color: var(--cui-input-disabled-bg, white);
+  border-color: var(--cui-input-disabled-border-color, #b1b7c1);
+  opacity: 1 !important;
+  background-color: white;
+}
+
+.label-count {
+  padding: 0px;
+}
+
+.label {
+  margin-top: 8px;
+}
+
+.main-div {
+  display: flex;
+}
+
+.label-box {
+  width: 320px;
+  padding: 10px;
+  border: 1px solid gray;
+  margin: 0;
+  border-radius: 15px;
+}
+
+.is_zinc_tin_copper {
+  background-color: #ffc23c;
+}
+
+.is_tin_copper {
+  background-color: #ea047e;
+}
+
+.is_zinc {
+  background-color: #ea047e;
+}
+
+.label-name {
+  text-align: center;
+  margin-top: 7vh;
+  font-size: 30px;
+}
+
+.reason {
+  width: 300px;
+}
+
+.quant {
+  width: 300px;
+}
+.scrap {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.add-quantity {
+  display: flex;
+  justify-content: space-between;
+}
+
+.check-box {
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+}

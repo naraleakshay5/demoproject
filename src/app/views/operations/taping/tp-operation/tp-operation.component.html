@@ -1,0 +1,122 @@
+<div>
+  <h3>Process Status</h3>
+  <div class="d-block">
+    <div class="d-flex">
+      <label for="">#Capacitor Processed:</label>
+      <span class="font-weight-bold ml-3"
+        >{{ machinePartBatchCounts }} / {{ elementTarget }}</span
+      >
+    </div>
+    <div class="d-flex">
+      <label for="">Reel/Box Count:</label>
+      <span class="font-weight-bold ml-3">{{ boxCount }}</span>
+    </div>
+    <div class="d-flex">
+      <label for="">Packing Counter:</label>
+      <span class="font-weight-bold ml-3"
+        >{{ machinePartBatchCount }} / {{ boxPartLimit }}</span
+      >
+    </div>
+    <!-- <div class="d-flex">
+      <label for="">#Elements Target:</label>
+      <span class="font-weight-bold ml-3">{{ elementTarget }}</span>
+    </div> -->
+  </div>
+  <div class="progressBar">
+    <div class="text-right">
+      <span class="mr-2"> {{ progress }} % Completed</span>
+    </div>
+
+    <c-progress class="mb-3" [height]="20">
+      <c-progress-bar [value]="progress"></c-progress-bar>
+    </c-progress>
+    <button
+      *ngIf="!(progress == 100)"
+      cButton
+      color="primary"
+      size="lg"
+      (click)="incrementTheProgress()"
+    >
+      +
+    </button>
+    <button
+      *ngIf="!(progress == 100)"
+      cButton
+      color="primary"
+      class="ml-3"
+      size="lg"
+      (click)="processQty()"
+    >
+      Process Qty check
+    </button>
+  </div>
+
+  <div *ngIf="progress == 100">
+    <div>
+      <span>PO Quantity Achieved. Initiate CheckOut process?</span>
+    </div>
+    <div class="mt-3 text-right">
+      <button cButton color="primary" size="lg" (click)="yes()">Yes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ******************* Element Quality start*************************** -->
+<c-modal
+  #elementqualityCheck
+  alignment="center"
+  id="elementqualityCheck"
+  backdrop="static"
+  [visible]="elementqualitycheck"
+>
+  <div class="p-4">
+    <div>
+      <h5 cModalTitle class="font-weight-bold">Element Quality Check</h5>
+      <button
+        [cModalToggle]="elementqualityCheck.id"
+        cButtonClose
+        class="cross-btn"
+      ></button>
+    </div>
+    <div class="mt-3">Collect Qty 5 samples for Element Quality check.</div>
+    <div class="text-right mt-3">
+      <button cButton color="primary" class="mr-3" (click)="processQty()">
+        Proceed
+      </button>
+      <button [cModalToggle]="elementqualityCheck.id" cButton color="secondary">
+        Cancel
+      </button>
+    </div>
+  </div>
+</c-modal>
+<!-- ******************* Element Quality end*************************** -->
+
+<!-- ******************* Element Quality start*************************** -->
+<c-modal
+  #boxComplete
+  alignment="center"
+  id="boxComplete"
+  backdrop="static"
+  [visible]="boxFull"
+>
+  <div class="p-4">
+    <div>
+      <h5 cModalTitle class="font-weight-bold">Reel/Box Full</h5>
+      <button
+        [cModalToggle]="boxComplete.id"
+        cButtonClose
+        class="cross-btn"
+      ></button>
+    </div>
+    <div class="mt-3">Please replace the reel/box.</div>
+    <div class="text-right mt-3">
+      <!-- <button cButton color="primary" class="mr-3" (click)="processQty()">
+        Proceed
+      </button> -->
+      <button [cModalToggle]="boxComplete.id" cButton color="primary">
+        Ok
+      </button>
+    </div>
+  </div>
+</c-modal>
+<!-- ******************* Element Quality end*************************** -->

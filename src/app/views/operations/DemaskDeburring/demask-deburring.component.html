@@ -1,0 +1,28 @@
+<div *ngIf="!!poData" class="container-fluid header-content card">
+  <div class="row">
+    <div class="col-6">PO#: {{ poData.po_number }}</div>
+    <div class="col-6">SachId: {{ poData.sach_number }}</div>
+  </div>
+</div>
+<div class="continer-fluid">
+  <div class="row">
+    <div class="side-menu card">
+      <ol cListGroup>
+        <li
+          cListGroupItem
+          [ngClass]="{
+            is_Complete: poStage?.stage_status === 'completed',
+            is_Process: poStage?.stage_status === 'in_process'
+          }"
+          *ngFor="let poStage of poStages; let i = index"
+        >
+          {{ poStage.stage_name }}
+        </li>
+      </ol>
+    </div>
+
+    <div class="main-content main-wrapper-scroll-y my-custom-scrollbar card">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

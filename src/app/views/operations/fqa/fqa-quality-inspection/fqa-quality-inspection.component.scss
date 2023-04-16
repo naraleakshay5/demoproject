@@ -1,0 +1,14 @@
+.white-card:hover {
+  background-color: #d5e8d4;
+  border: 1px solid #83b468;
+}
+.isComplete {
+  background-color: #d5e8d4 !important;
+  border: 1px solid #83b468 !important;
+}
+
+.check {
+  position: absolute;
+  right: 5px;
+  color: #83b468;
+}

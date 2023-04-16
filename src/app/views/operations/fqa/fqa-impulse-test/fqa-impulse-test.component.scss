@@ -1,0 +1,41 @@
+a {
+  text-decoration: none;
+  color: #b4afaf;
+  font-size: 18px;
+  font-weight: 600;
+}
+.active {
+  color: #2c6dd3 !important;
+}
+
+.sample_ok {
+  background: #a8efa4;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.sample_not_ok {
+  background: #fd8686;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.modal-dialog {
+  width: 982px !important;
+  margin: 1.75rem auto !important;
+  max-width: 950px !important;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    width: 982px !important;
+    margin: 1.75rem auto !important;
+    max-width: 950px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-lg,
+  .modal-xl {
+    max-width: 950px !important;
+  }
+}

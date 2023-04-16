@@ -1,0 +1,23 @@
+<div class="full-content p-3">
+  <div>
+    <h5 class="font-weight-bold">Stroke Weight</h5>
+  </div>
+  <div class="ml-2 mb-2">
+    <span class="font-weight-bold w-25">Please weigh the stroke.</span>
+    <label class="flex-space-center mt-3">
+      <span class="font-weight-bold w-25">Enter stroke weight:-</span>
+      <input
+        placeholder="Enter weight"
+        class="input-box w-25"
+        autofocus
+        type="text"
+        [(ngModel)]="weight"
+        style="margin-right: 8px"
+        (focusout)="focusOut()"
+      />
+    </label>
+  </div>
+  <div class="text-right">
+    <button cButton class="ml-3" (click)="proceed()">Proceed</button>
+  </div>
+</div>

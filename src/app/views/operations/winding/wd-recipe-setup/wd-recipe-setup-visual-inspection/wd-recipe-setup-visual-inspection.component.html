@@ -1,0 +1,245 @@
+<div class="header" *ngIf="!windingVisualInspection">
+  <h3>Visual Inspection - Trial Parts</h3>
+</div>
+<div *ngIf="windingVisualInspection">
+  <h3>In-Process Quality Check Point</h3>
+  <div class="d-flex">
+    <label for="">#Elements Processed:</label>
+    <input class="w-25 ml-4 mb-3 form-control" type="number" />
+  </div>
+</div>
+<div *ngIf="!isProceed">
+  <span>Perform Visual Inspection & Measurement of the Trial Parts.</span>
+  <div class="mt-3 text-right">
+    <button cButton color="primary" size="lg" (click)="isProceeded()">
+      Proceed
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isProceed">
+  <div *ngIf="!windingVisualInspection" class="d-flex">
+    <label for="" class="mrt">Capacitance Setup:-</label>
+    <input class="w-25 mb-3 form-control bins-count" type="number" />
+  </div>
+  <c-nav variant="tabs">
+    <a
+      [active]="true"
+      [cTabContent]="tabContent"
+      [routerLink]
+      [tabPaneIdx]="0"
+      cNavLink
+      >Measurement</a
+    >
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink
+      >Visual Inspection</a
+    >
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane>
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th scope="col" class="col-4">Parameter</th>
+            <th scope="col" class="col-3">Tolerance Band</th>
+            <th scope="col">Sample 1</th>
+            <th scope="col">Sample 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of measurement; let i = index">
+            <td class="col-4">{{ item?.parameter }}</td>
+            <td class="text-center">
+              {{ item?.tolerance_min }}-{{ item?.tolerance_max }}
+            </td>
+            <td
+              class="text-center"
+              *ngIf="
+                item?.parameter != 'Stagger Height SC' &&
+                item?.parameter != 'Stagger Height WC'
+              "
+            >
+              {{ item?.sample1 }}
+            </td>
+            <td
+              class="text-center"
+              *ngIf="
+                item?.parameter == 'Stagger Height SC' ||
+                item?.parameter == 'Stagger Height WC'
+              "
+            >
+              <input
+                class="w-100 form-control"
+                type="number"
+                [(ngModel)]="item.sample1"
+              />
+            </td>
+            <td
+              class="text-center"
+              *ngIf="
+                item?.parameter != 'Stagger Height SC' &&
+                item?.parameter != 'Stagger Height WC'
+              "
+            >
+              {{ item?.sample2 }}
+            </td>
+            <td
+              class="text-center"
+              *ngIf="
+                item?.parameter == 'Stagger Height SC' ||
+                item?.parameter == 'Stagger Height WC'
+              "
+            >
+              <input
+                class="w-100 form-control"
+                type="number"
+                [(ngModel)]="item.sample2"
+              />
+            </td>
+            <td>
+              <div class="text-center">
+                <label
+                  for="not_ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  *ngIf="!item?.is_true"
+                  ><i
+                    class="bi bi-hand-thumbs-down-fill"
+                    [ngClass]="!item?.is_true ? 'not_ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="not_ok_{{ i }}"
+                  name="ok-notok_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="notok_{{ i }}"
+                  class="d-none"
+                />
+                <label
+                  for="ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  *ngIf="item?.is_true"
+                  ><i
+                    class="bi bi-hand-thumbs-up-fill"
+                    [ngClass]="item?.is_true ? 'ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="ok_{{ i }}"
+                  name="ok-notok_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="ok_{{ i }}"
+                  class="d-none"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </c-tab-pane>
+    <c-tab-pane>
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th scope="col">Parameter</th>
+            <th scope="col">Sample 1</th>
+            <th scope="col">Sample 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of visualInspect; let i = index">
+            <td>{{ item?.parameter }}</td>
+            <td>
+              <div class="text-center">
+                <label
+                  for="is_sample_1_not_ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  class="mr-3"
+                  ><i
+                    class="bi bi-hand-thumbs-down-fill"
+                    [ngClass]="item?.is_sample_1_not_ok ? 'not_ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="is_sample_1_not_ok_{{ i }}"
+                  name="ok-notok_sample_1_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="notoksample1_{{ i }}"
+                  class="d-none"
+                />
+                <label
+                  for="is_sample_1_ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  ><i
+                    class="bi bi-hand-thumbs-up-fill"
+                    [ngClass]="item?.is_sample_1_ok ? 'ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="is_sample_1_ok_{{ i }}"
+                  name="ok-notok_sample_1_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="oksample1_{{ i }}"
+                  class="d-none"
+                />
+              </div>
+            </td>
+            <td>
+              <div class="text-center">
+                <label
+                  for="is_sample_2_not_ok_{{ i }}"
+                  class="mr-3"
+                  style="font-size: 24px; cursor: pointer"
+                  ><i
+                    class="bi bi-hand-thumbs-down-fill"
+                    [ngClass]="item?.is_sample_2_not_ok ? 'not_ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="is_sample_2_not_ok_{{ i }}"
+                  name="ok-notok_sample_2_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="notoksample2_{{ i }}"
+                  class="d-none"
+                />
+                <label
+                  for="is_sample_2_ok_{{ i }}"
+                  style="font-size: 24px; cursor: pointer"
+                  ><i
+                    class="bi bi-hand-thumbs-up-fill"
+                    [ngClass]="item?.is_sample_2_ok ? 'ok' : ''"
+                  ></i
+                ></label>
+                <input
+                  type="radio"
+                  id="is_sample_2_ok_{{ i }}"
+                  name="ok-notok_sample_2_{{ i }}"
+                  (change)="onItemChange($event)"
+                  value="oksample2_{{ i }}"
+                  class="d-none"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </c-tab-pane>
+  </c-tab-content>
+  <div class="text-right">
+    <button
+      cButton
+      btn
+      color="primary"
+      size="lg"
+      (click)="completeVisualInspection()"
+      [disabled]="!disabledBtn"
+    >
+      Submit
+    </button>
+    <button cButton color="secondary" size="lg">Cancel</button>
+  </div>
+</div>

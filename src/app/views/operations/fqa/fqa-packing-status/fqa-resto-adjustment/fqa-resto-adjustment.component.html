@@ -1,0 +1,82 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Resto Quantity Adjustment</h5>
+  </div>
+
+  <div class="mt-3">
+    <div class="mt-3">
+      <div *ngIf="!isRemoveFb && isRemoveLb && !noRemove" class="mt-3">
+        <ol style="list-style-type: decimal">
+          <li class="mt-2">
+            Remove Qty
+            <strong>{{ removeLb | number : "1.0-0" }}</strong> elements from the
+            loose box and keep aside.
+          </li>
+          <li class="mt-2">
+            Add Qty
+            <strong>{{ qtyRestoBox | number : "1.0-0" }}</strong> elements from
+            the kardex resto box into loose box to complete VPG quantity.
+          </li>
+          <li class="mt-2">
+            Put Qty <strong>{{ removeLb | number : "1.0-0" }}</strong> from step
+            1 into new kardex resto box.
+          </li>
+        </ol>
+      </div>
+
+      <div *ngIf="isRemoveFb && !isRemoveLb && !noRemove" class="mt-3">
+        <ol style="list-style-type: decimal">
+          <li class="mt-2">
+            Remove Qty
+            <strong>{{ qtyRestoBox | number : "1.0-0" }}</strong> elements from
+            the full box and keep aside.
+          </li>
+          <li class="mt-2">
+            Add Qty
+            <strong>{{ qtyRestoBox | number : "1.0-0" }}</strong> elements from
+            kardex resto box into the full box.
+          </li>
+          <li class="mt-2">
+            Add Qty
+            <strong>{{ qtyLooseBox | number : "1.0-0" }}</strong> elements from
+            loose box to Qty
+            <strong>{{ qtyRestoBox | number : "1.0-0" }}</strong> elements
+            removed from full box in step 1.
+          </li>
+          <li class="mt-2">
+            Put Qty
+            <strong>{{ qtyLooseBox + qtyRestoBox | number : "1.0-0" }}</strong>
+            from step 3 into new kardex resto box.
+          </li>
+        </ol>
+      </div>
+
+      <div *ngIf="!isRemoveFb && !isRemoveLb && noRemove" class="mt-3">
+        <ol style="list-style-type: decimal">
+          <li class="mt-2">
+            Add Qty
+            <strong>{{ qtyRestoBox | number : "1.0-0" }}</strong> elements from
+            kardex resto box into loose box to complete VPG quantity.
+          </li>
+          <li class="mt-2">No new Kardex resto box is generated.</li>
+        </ol>
+      </div>
+    </div>
+
+    <span class="d-block mt-3">
+      Confirm Resto Quantity Adjustment is completed.
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <div class="text-right mt-3">
+      <button
+        cButton
+        color="primary"
+        size="lg"
+        (click)="proceed()"
+        [disabled]="!isdisabled"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>

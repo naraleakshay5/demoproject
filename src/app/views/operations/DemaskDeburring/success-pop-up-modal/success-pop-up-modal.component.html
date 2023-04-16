@@ -1,0 +1,12 @@
+<c-modal class="modal" id="liveDemoModal" [visible]="visible">
+  <c-modal-header class="modal-header">
+    <h5 cModalTitle>{{ title }}</h5>
+    <button cButtonClose (click)="toggleVisibility()"></button>
+  </c-modal-header>
+  <c-modal-body class="modal-body">{{ text }} </c-modal-body>
+  <c-modal-footer class="modal-footer">
+    <button (click)="modalConfirmed()" cButton color="primary">
+      {{ confirm }}
+    </button>
+  </c-modal-footer>
+</c-modal>

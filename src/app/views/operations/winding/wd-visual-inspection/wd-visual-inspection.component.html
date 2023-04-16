@@ -1,0 +1,106 @@
+<div class="p-3">
+  <div>
+    <h5 class="font-weight-bold">Visual Inspection - Trial Parts</h5>
+  </div>
+  <div>
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th scope="col">Parameter</th>
+          <th scope="col">Sample 1</th>
+          <th scope="col">Sample 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of visualInspect; let i = index">
+          <td>{{ item?.param_name }}</td>
+          <td>
+            <div class="text-center">
+              <label
+                for="is_sample_1_not_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                class="mr-3"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="item?.is_sample_1_not_ok ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_1_not_ok_{{ i }}"
+                name="ok-notok_sample_1_{{ i }}"
+                (change)="onItemChange($event)"
+                value="notoksample1_{{ i }}"
+                class="d-none"
+              />
+              <label
+                for="is_sample_1_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="item?.is_sample_1_ok ? 'ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_1_ok_{{ i }}"
+                name="ok-notok_sample_1_{{ i }}"
+                (change)="onItemChange($event)"
+                value="oksample1_{{ i }}"
+                class="d-none"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="text-center">
+              <label
+                for="is_sample_2_not_ok_{{ i }}"
+                class="mr-3"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-down-fill"
+                  [ngClass]="item?.is_sample_2_not_ok ? 'not_ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_2_not_ok_{{ i }}"
+                name="ok-notok_sample_2_{{ i }}"
+                (change)="onItemChange($event)"
+                value="notoksample2_{{ i }}"
+                class="d-none"
+              />
+              <label
+                for="is_sample_2_ok_{{ i }}"
+                style="font-size: 24px; cursor: pointer"
+                ><i
+                  class="bi bi-hand-thumbs-up-fill"
+                  [ngClass]="item?.is_sample_2_ok ? 'ok' : ''"
+                ></i
+              ></label>
+              <input
+                type="radio"
+                id="is_sample_2_ok_{{ i }}"
+                name="ok-notok_sample_2_{{ i }}"
+                (change)="onItemChange($event)"
+                value="oksample2_{{ i }}"
+                class="d-none"
+              />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right">
+    <button
+      cButton
+      btn
+      color="primary"
+      (click)="completeVisualInspection()"
+      [disabled]="!disabledBtn"
+    >
+      Submit
+    </button>
+  </div>
+</div>

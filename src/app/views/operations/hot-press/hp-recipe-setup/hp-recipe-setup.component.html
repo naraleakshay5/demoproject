@@ -1,0 +1,113 @@
+<!-- <div class="spinner-border" role="status">
+  <span class="sr-only">Loading...</span>
+</div> -->
+<div class="isLoadTrue">
+  <app-spinner-l2 [size]="'small'" *ngIf="isLoading"></app-spinner-l2>
+</div>
+<div *ngIf="!is_Proceed" [ngClass]="isLoading ? 'isLoadFalse' : ''">
+  <div>
+    <h5 class="font-weight-bold">Recipe Setup</h5>
+  </div>
+  <div
+    class="mt-3 p-3 success-card"
+    *ngIf="isSuccess && !errorMessage && loadrecipes.length > 0"
+  >
+    <span class="d-block font-weight-bold">Well Done!</span>
+    <span class="d-block">Recipe loaded successfully. </span>
+  </div>
+  <div class="mt-3 p-3 Warning-card" *ngIf="errorMessage">
+    <span class="d-block font-weight-bold">Warning!</span>
+    <span class="d-block">{{ errorMessage }} </span>
+  </div>
+
+  <div class="mt-3">
+    <table cTable>
+      <thead class="text-center">
+        <tr>
+          <th class="col-3">Parameter</th>
+          <th class="col-3">Tolerance band</th>
+          <th class="col-2">Reference Recipe</th>
+          <th class="col-3">Loaded Recipe</th>
+          <th class="col-3">Set Recipe Parameter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loadrecipes of loadrecipes; let i = index">
+          <td>{{ loadrecipes.display_name }}</td>
+          <td class="text-center">
+            {{ loadrecipes.min_value }}-{{ loadrecipes.max_value }}
+          </td>
+          <td class="text-center">{{ loadrecipes.value }}</td>
+          <td class="text-center">{{ loadrecipes.loaded_value }}</td>
+          <td class="text-center">
+            <tr>
+              <td class="w-25 text-center">
+                <button
+                  cButton
+                  color="primary"
+                  [disabled]="!isBtnDisabled || !loadrecipes.isMinus"
+                  (click)="minus(i)"
+                >
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+              </td>
+              <td class="w-50 text-center">{{ loadrecipes.set_recipe }}</td>
+              <td class="w-25 text-center">
+                <button
+                  cButton
+                  color="primary"
+                  [disabled]="!isBtnDisabled || !loadrecipes.isPlus"
+                  (click)="plus(i)"
+                >
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </td>
+            </tr>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-right">
+    <button
+      cButton
+      class="ml-3"
+      (click)="isProceed()"
+      [disabled]="isLoading || !isSuccess"
+    >
+      Proceed
+    </button>
+    <button
+      cButton
+      class="ml-3"
+      (click)="loadRecipe()"
+      *ngIf="!is_same"
+      [disabled]="isLoading"
+    >
+      Re-try Recipe Loading
+    </button>
+    <button
+      cButton
+      class="ml-3"
+      (click)="loadRecipe()"
+      [disabled]="isLoading || !isModify"
+    >
+      Modify Recipe Load
+    </button>
+  </div>
+</div>
+
+<div *ngIf="is_Proceed">
+  <div>
+    <h5 class="font-weight-bold">Loading Trays</h5>
+  </div>
+
+  <div>
+    <span>Load trays into the Oven</span>
+  </div>
+
+  <div class="text-right">
+    <button cButton class="ml-3" (click)="proceed()">Proceed</button>
+  </div>
+</div>

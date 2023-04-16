@@ -1,0 +1,156 @@
+<div *ngIf="recipeType == 'ammo'">
+  <div>
+    <h5 class="font-weight-bold">Ammo packing material</h5>
+  </div>
+  <div class="mt-2">
+    <span class="d-block font-weight-bold"
+      >Following raw material and set on the machine:
+    </span>
+
+    <div class="mt-4">
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th class="col-3"></th>
+            <th class="col-2">Required</th>
+            <th class="col-3">Actual</th>
+            <th class="col-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Packing box</td>
+            <td>{{ packingBox }}</td>
+            <td>
+              <select
+                cSelect
+                #mySelect
+                (change)="onToolSelected(mySelect.value)"
+              >
+                <option disabled selected>Select from list</option>
+                <option value="{{ packingBox }}">{{ packingBox }}</option>
+              </select>
+            </td>
+            <td>
+              <div *ngIf="isCorrectSelected">
+                <div style="color: green">
+                  <svg
+                    cIcon
+                    name="cil-check"
+                    size="xl"
+                    title="Check Mark Icon"
+                  ></svg>
+                </div>
+                <div *ngIf="isWrongSelected">
+                  <i
+                    class="bi bi-exclamation-triangle-fill text-warning me-1"
+                    style="font-size: 25px"
+                    data-container="body"
+                    data-toggle="popover"
+                    data-placement="top"
+                    cTooltip="Incorrect box selected."
+                    cTooltipPlacement="top"
+                  ></i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <span class="d-block mt-3">
+      Packing box <Span class="ml-5 font-weight-bold">V8089</Span>
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span> -->
+    <span class="d-block mt-3">
+      Plastics sticks
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Fillers
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Silica gel
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Carrier band
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Thermoadhesive tape
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <!-- <ul>
+      <li>Packing box</li>
+      <li>Plastics sticks</li>
+      <li>Fillers</li>
+      <li>Silica gel</li>
+      <li>Carrier band</li>
+      <li>Thermoadhesive tape</li>
+    </ul> -->
+  </div>
+  <div class="text-right mt-3">
+    <button
+      cButton
+      color="primary"
+      size="lg"
+      (click)="proceed('ammo')"
+      [disabled]="count != 5 || !isCorrectSelected"
+    >
+      Proceed
+    </button>
+  </div>
+</div>
+
+<div *ngIf="recipeType == 'reel'">
+  <div>
+    <h5 class="font-weight-bold">Reel packing material</h5>
+  </div>
+  <div class="mt-2">
+    <span class="d-block font-weight-bold"
+      >Following raw material and set on the machine:
+    </span>
+
+    <span class="d-block mt-3">
+      Carrier band
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Thermo-adhesive tape
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Separator tape
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Plastic Disc bobbin
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+    <span class="d-block mt-3">
+      Carton bobbin
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+
+    <!-- <ul>
+      <li>Carrier band</li>
+      <li>Thermo-adhesive tape</li>
+      <li>Separator tape</li>
+      <li>Plastic Disc w/ bobbin</li>
+      <li>Carton bobbin</li>
+    </ul> -->
+  </div>
+  <div class="text-right mt-3">
+    <button
+      cButton
+      color="primary"
+      size="lg"
+      (click)="proceed('reel')"
+      [disabled]="count != 5"
+    >
+      Proceed
+    </button>
+  </div>
+</div>

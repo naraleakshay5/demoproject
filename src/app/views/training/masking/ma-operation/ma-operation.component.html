@@ -1,0 +1,248 @@
+<div class="training-header-content po-card">
+  <div class="row">
+    <div class="col-6">PO#: {{ "122879777" }}</div>
+    <div class="col-6">SachId: {{ "B81123C1472M189" }}</div>
+  </div>
+</div>
+
+<div class="training-full-content p-3">
+  <div>
+    <div>
+      <div>
+        <div>
+          <div class="mb-4">
+            <h3>Process Status</h3>
+          </div>
+          <div>
+            <div class="mb-2">
+              <label for="">#Wheel: {{ currentWheelCount }}</label>
+            </div>
+            <div class="mb-2">
+              <label for="">#Elements Processed: {{ progress }}</label>
+            </div>
+            <div class="mb-2">
+              <label for=""
+                >#Elements To PO Completion : {{ remainingElements }}</label
+              >
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-right">
+              <span class="mr-2"> {{ progress }} %Completed</span>
+            </div>
+            <c-progress class="mb-3" [height]="20">
+              <c-progress-bar [value]="progress"></c-progress-bar>
+            </c-progress>
+            <button
+              cButton
+              *ngIf="!(progress >= 100)"
+              color="primary"
+              size="lg"
+              (click)="addProgress()"
+            >
+              +
+            </button>
+            <button
+              *ngIf="40 <= progress && progress <= 60"
+              cButton
+              color="primary"
+              size="lg"
+              (click)="inProcessQualityCheck()"
+            >
+              In-Process Quality Check
+            </button>
+            <div class="text-right">
+              <button cButton color="primary" size="lg" (click)="addBins()">
+                Add Bins
+              </button>
+              <button cButton color="primary" size="lg" (click)="addWheel()">
+                Add Wheel
+              </button>
+              <button
+                cButton
+                color="primary"
+                size="lg"
+                (click)="inProcessQualityCheck()"
+              >
+                Re-Work
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wheel-action" *ngIf="progress >= 99">
+        <div>
+          <div>
+            <span>Wheels completed: {{ currentWheelCount }}.</span>
+          </div>
+        </div>
+        <div class="mt-3 text-right">
+          <button cButton color="secondary" size="lg" (click)="completePo()">
+            Complete PO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ************************* -->
+<div *ngIf="enableInProcessQualityCheckModal">
+  <c-modal
+    class="modal"
+    id="liveDemoModal"
+    [visible]="visible"
+    backdrop="static"
+  >
+    <c-modal-header class="modal-header">
+      <h5 cModalTitle>{{ "In-Process Quality Check Point" }}</h5>
+      <button
+        cButtonClose
+        (click)="toggleVisibilityForPRocessQualityCheck()"
+      ></button>
+    </c-modal-header>
+    <c-modal-body class="modal-body"
+      >{{ "#Elements Processed:" }} {{ progress }}
+      <br />
+      {{ "Ensure Omega shape/Centering/& tight masking of element." }}
+    </c-modal-body>
+    <c-modal-footer class="modal-footer">
+      <button
+        (click)="toggleVisibilityForPRocessQualityCheck()"
+        cButton
+        color="primary"
+      >
+        {{ "Confirm" }}
+      </button>
+      <button (click)="reworkConfirmed()" cButton color="secondary">
+        {{ "Re-work" }}
+      </button>
+    </c-modal-footer>
+  </c-modal>
+</div>
+
+<!-- ****************************** -->
+
+<!-- ************************* -->
+<div *ngIf="enableReworkModal">
+  <c-modal
+    class="modal"
+    id="liveDemoModal"
+    [visible]="visible"
+    backdrop="static"
+  >
+    <c-modal-header class="modal-header">
+      <h5 cModalTitle>{{ "Masking Re-work" }}</h5>
+      <button cButtonClose (click)="toggleVisibilityForReworkModal()"></button>
+    </c-modal-header>
+    <c-modal-body class="modal-body">
+      <h4>{{ "Select type of Re-work required" }}</h4>
+
+      <div class="main-body">
+        <div
+          class="rework"
+          [ngClass]="isMinor == true ? 'Warning-card' : ''"
+          (click)="minor()"
+        >
+          <h4>Minor</h4>
+          <span>Rework required for selection of wheel</span>
+        </div>
+        <div
+          class="rework"
+          [ngClass]="isMajor == true ? 'Warning-card' : ''"
+          (click)="major()"
+        >
+          <h4>Major</h4>
+          <span>Wheel needs to be completely reworked</span>
+        </div>
+      </div>
+    </c-modal-body>
+    <c-modal-footer class="modal-footer">
+      <button (click)="modalConfirmed()" cButton color="primary">
+        {{ "Submit" }}
+      </button>
+      <button
+        (click)="toggleVisibilityForReworkModal()"
+        cButton
+        color="secondary"
+      >
+        {{ "Cancel" }}
+      </button>
+    </c-modal-footer>
+  </c-modal>
+</div>
+<!-- ****************************** -->
+
+<!-- ************************* -->
+<div *ngIf="enableMajorRework">
+  <c-modal
+    class="modal"
+    id="liveDemoModal"
+    [visible]="visible"
+    backdrop="static"
+  >
+    <c-modal-header class="modal-header">
+      <h5 cModalTitle>{{ "Masking Re-work - Major" }}</h5>
+      <button cButtonClose (click)="toggleVisibilityForMajorRework()"></button>
+    </c-modal-header>
+    <c-modal-body class="modal-body">
+      <h4>Instructions</h4>
+      {{ "Remove the partially completed wheel." }}
+      <br />
+      {{ "De-tape masked wheel and put elements in bowl feeder." }}
+      <br />
+    </c-modal-body>
+    <c-modal-footer class="modal-footer">
+      <button (click)="majorReworkModalConfirmed()" cButton color="primary">
+        {{ "Confirm & Proceed" }}
+      </button>
+      <button
+        (click)="toggleVisibilityForMajorRework()"
+        cButton
+        color="secondary"
+      >
+        {{ "Cancel" }}
+      </button>
+    </c-modal-footer>
+  </c-modal>
+</div>
+<!-- ****************************** -->
+<!-- ************************* -->
+<div *ngIf="enableMinorRework">
+  <c-modal
+    class="modal"
+    id="liveDemoModal"
+    [visible]="visible"
+    backdrop="static"
+  >
+    <c-modal-header class="modal-header">
+      <h5 cModalTitle>{{ "Masking Re-work - Minor" }}</h5>
+      <button cButtonClose (click)="toggleVisibilityForMinorRework()"></button>
+    </c-modal-header>
+    <c-modal-body class="modal-body">
+      <h4>Instructions</h4>
+      {{ "Cut the portion of masking tape that requires rework." }}
+      <br />
+      {{ "Join the open ends by cellopane tape." }}
+      <br />
+      {{
+        "De-tape the bad quality masking portion and put element in bowl feeder."
+      }}
+      <br />
+    </c-modal-body>
+    <c-modal-footer class="modal-footer">
+      <button (click)="minorReworkModalConfirmed()" cButton color="primary">
+        {{ "Confirm & Proceed" }}
+      </button>
+      <button
+        (click)="toggleVisibilityForMinorRework()"
+        cButton
+        color="secondary"
+      >
+        {{ "Cancel" }}
+      </button>
+    </c-modal-footer>
+  </c-modal>
+</div>
+<!-- ****************************** -->

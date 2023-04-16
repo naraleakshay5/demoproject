@@ -1,0 +1,81 @@
+<div>
+  <div>
+    <div>
+      <h5 class="font-weight-bold">Tool check</h5>
+    </div>
+    <div class="mt-1">
+      <span> Please select appropriate tools below: </span>
+      <div class="mt-2">
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th class="col-3"></th>
+              <th class="col-2">Required</th>
+              <th class="col-3">Actual</th>
+              <th class="col-1"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of toolsList">
+              <td>{{ item.tool_name }}</td>
+              <td class="text-center">{{ item.value }}</td>
+              <td>
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onToolSelected(mySelect.value, item)"
+                >
+                  <option disabled selected>Select from list</option>
+                  <option
+                    value="{{ tool.ls_value }}"
+                    *ngFor="let tool of leadSpace"
+                  >
+                    {{ tool.ls_value }}
+                  </option>
+                </select>
+              </td>
+              <td class="text-center">
+                <div>
+                  <div *ngIf="item.isChecked && item.isTouched">
+                    <svg
+                      [ngStyle]="{
+                        color: item.isChecked == true ? 'green' : 'red'
+                      }"
+                      cIcon
+                      name="cil-check"
+                      size="xl"
+                      title="Check Mark Icon"
+                    ></svg>
+                  </div>
+                  <div *ngIf="item.isChecked == false && item.isTouched">
+                    <i
+                      class="bi bi-exclamation-triangle-fill text-warning me-1"
+                      style="font-size: 25px"
+                      data-container="body"
+                      data-toggle="popover"
+                      data-placement="top"
+                      cTooltip="Incorrect tool selected."
+                      cTooltipPlacement="top"
+                      data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                    ></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-1 text-right">
+        <button
+          cButton
+          size="lg"
+          class="mr-3"
+          (click)="onSubmit()"
+          [disabled]="!isToolAllSelected"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

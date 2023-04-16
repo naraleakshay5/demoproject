@@ -1,0 +1,17 @@
+label {
+  display: block;
+  margin-bottom: 0px;
+}
+.img {
+  width: 275px;
+  border-radius: 10px;
+}
+.scanner-position {
+  position: absolute;
+  right: 0;
+}
+.scanner-label {
+  margin-left: 50%;
+  transform: translate(-50%, -190%);
+  background: white;
+}

@@ -1,0 +1,54 @@
+.btn {
+  margin: 3px;
+}
+
+a {
+  text-decoration: none;
+  color: #b4afaf;
+  font-size: 18px;
+  font-weight: 600;
+}
+.active {
+  color: #2c6dd3 !important;
+}
+.check-box {
+  display: flex;
+  justify-content: space-evenly;
+  height: 15px;
+}
+.header {
+  border: none !important;
+}
+
+.ok {
+  color: green;
+  cursor: pointer;
+}
+.not_ok {
+  color: red;
+  cursor: pointer;
+}
+tr {
+  line-height: 0.65;
+}
+
+.mrt {
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+.form-control.ng-valid {
+  background-image: none;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+  padding: 5px !important;
+}
+
+input {
+  text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

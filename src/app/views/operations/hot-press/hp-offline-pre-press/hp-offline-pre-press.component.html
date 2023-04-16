@@ -1,0 +1,20 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Offline Pre-press</h5>
+  </div>
+  <div class="mt-3">
+    <span class="d-block font-weight-bold">
+      For Po Number# {{ poData?.po_number }}, Offline Pre-press is
+      mandatory.</span
+    >
+    <span class="d-block mt-3">
+      Please confirm off-line pre-press is completed.
+      <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+    </span>
+  </div>
+
+  <div class="mt-3" *ngIf="setupScrap">
+    <!-- <app-scrap-booking></app-scrap-booking> -->
+    <app-hp-scrap-booking></app-hp-scrap-booking>
+  </div>
+</div>

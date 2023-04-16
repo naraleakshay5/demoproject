@@ -1,0 +1,29 @@
+body {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #bbb;
+
+  &.red {
+    background-color: rgb(255, 0, 0);
+  }
+
+  &.green {
+    background-color: rgb(8, 255, 0);
+  }
+
+  &.w20 {
+    height: 20px;
+    width: 20px;
+  }
+}

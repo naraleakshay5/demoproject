@@ -1,0 +1,377 @@
+<div *ngIf="!isPoStarted">
+  <c-card style="margin-right: 25px">
+    <c-card-body>
+      <h5>Orders to Process</h5>
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th class="col-3">Prod.Order</th>
+            <th class="col-2">Sach</th>
+            <th>#Carriers</th>
+            <th class="col-2">Qty</th>
+            <th scope="col">LS</th>
+            <th scope="col">BS</th>
+            <th scope="col">PMT Delay</th>
+            <th class="col-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="col-3">
+              {{ "122879777" }}
+              <i
+                class="bi bi-info-circle-fill pl-2 text-info me-1"
+                cTooltip="{{ 'instruction' }}"
+                cTooltipPlacement="top"
+                placement="top"
+              ></i>
+            </td>
+            <td>{{ "B81123C1472M189" }}</td>
+
+            <td class="text-center">{{ "100" }}</td>
+            <td class="text-center">{{ "22.5" }}</td>
+            <td class="text-center">{{ "" }}</td>
+            <td class="text-center">{{ "" }}</td>
+            <td class="text-center">{{ "" }}</td>
+
+            <td class="text-center">
+              <button
+                (click)="maskingStarted()"
+                class="btn btn-primary w-100 p-2"
+              >
+                Start
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h5>Orders in Process</h5>
+      <div class="text-center">
+        <h5>No data</h5>
+        <hr />
+      </div>
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th class="col-3">Prod.Order</th>
+            <th class="col-2">Sach</th>
+            <th>#Carriers</th>
+            <th class="col-2">Qty</th>
+            <th scope="col">LS</th>
+            <th scope="col">BS</th>
+            <th scope="col">PMT Delay</th>
+            <th class="col-2">Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <br />
+      <h5>Previously Completed Orders</h5>
+      <div class="text-center">
+        <h5>No data</h5>
+        <hr />
+      </div>
+      <table cTable>
+        <thead class="text-center">
+          <tr>
+            <th class="col-3">#PO</th>
+            <th class="col-2">PO Type</th>
+            <th class="col-3">#Sach Id</th>
+            <th class="col-2">#PO Quantity</th>
+            <th class="col-2">PO Checkout</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </c-card-body>
+  </c-card>
+</div>
+
+<div *ngIf="isPoStarted">
+  <div class="training-header-content po-card">
+    <div class="row">
+      <div class="col-6">PO#: {{ "122879777" }}</div>
+      <div class="col-6">SachId: {{ "B81123C1472M189" }}</div>
+    </div>
+  </div>
+
+  <div class="training-full-content p-3">
+    <!-- Material Check -->
+    <div *ngIf="!completeMaterialCheck">
+      <div class="header">
+        <h2>Required Materials</h2>
+      </div>
+
+      <div>
+        <div class="span">
+          <span class="span"
+            >Please fetch required materials for this PO and confirm in the
+            DPS</span
+          >
+        </div>
+
+        <table cTable>
+          <thead class="text-center">
+            <tr>
+              <th scope="col-2">Item</th>
+              <th scope="col-2">Required Size</th>
+              <th scope="col-2">Actual Size</th>
+              <th scope="col-2">Tape Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="m2-1 mb-1"
+              *ngFor="let index of materialDetails; let i = index"
+            >
+              <td class="text-center">
+                {{
+                  index?.material_name == "cello_tape_id"
+                    ? "Cello Tape"
+                    : index?.material_name == "masking_tape"
+                    ? "Masking Tape"
+                    : ""
+                }}
+              </td>
+              <td class="text-center">{{ index?.required_size }}</td>
+              <td class="text-center">
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onTapeSizeSelected(mySelect.value, index)"
+                >
+                  <option disabled selected>Select from list</option>
+                  <option
+                    value="{{ item }}"
+                    *ngFor="let item of index.tape_size"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+              </td>
+              <td class="text-center">
+                <select
+                  cSelect
+                  #mySelect
+                  (change)="onTapeColorSelected(mySelect.value, index)"
+                >
+                  <option disabled selected>Select from list</option>
+                  <option
+                    value="{{ item }}"
+                    *ngFor="let item of index.tape_colors"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-right">
+        <button
+          cButton
+          color="primary"
+          size="lg"
+          [ngClass]="isAllMaterialSelected ? 'btn-disabled' : ''"
+          [disabled]="!isSizeSelected && !isAllMaterialSelected"
+          (click)="proceedToCompleteMaterialCheck()"
+        >
+          Confirm and Proceed
+        </button>
+      </div>
+    </div>
+
+    <!-- Tool Check -->
+    <div *ngIf="completeToolCheck">
+      <div class="header">
+        <h2>Required Tools</h2>
+      </div>
+
+      <div>
+        <div class="span">
+          <span
+            >Please fetch required tools for this PO and confirm in the
+            DPS</span
+          >
+        </div>
+
+        <div class="mt-2">
+          <table cTable>
+            <thead class="text-center">
+              <tr>
+                <th class="col-2"></th>
+                <th class="col-2">Required</th>
+                <th class="col-3">Actual</th>
+                <th class="col-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of toolsList">
+                <td>{{ item.tool_name }}</td>
+                <td class="text-center">{{ item.required_value }}</td>
+                <td>
+                  <select
+                    cSelect
+                    #mySelect
+                    (change)="onToolSelected(mySelect.value, item)"
+                  >
+                    <option disabled selected>Select from list</option>
+                    <option value="{{ ls }}" *ngFor="let ls of item.leadSpace">
+                      {{ ls }}
+                    </option>
+                  </select>
+                </td>
+                <td class="text-center">
+                  <div>
+                    <div *ngIf="item.isChecked && item.isTouched">
+                      <svg
+                        [ngStyle]="{
+                          color: item.isChecked == true ? 'green' : 'red'
+                        }"
+                        cIcon
+                        name="cil-check"
+                        size="xl"
+                        title="Check Mark Icon"
+                      ></svg>
+                    </div>
+                    <div *ngIf="item.isChecked == false && item.isTouched">
+                      <i
+                        class="bi bi-exclamation-triangle-fill text-warning me-1"
+                        style="font-size: 25px"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        cTooltip="Incorrect tool selected."
+                        cTooltipPlacement="top"
+                        data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                      ></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="text-right mt-2">
+        <button
+          cButton
+          color="primary"
+          size="lg"
+          [disabled]="!isToolAllSelected"
+          (click)="proceedToCompleteToolCheck()"
+        >
+          Confirm and Proceed
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="completeMachineSetup">
+      <div class="header">
+        <h2>Machine Setup</h2>
+      </div>
+
+      <div>
+        <div class="span">
+          <span class="span"
+            >Please setup following machine parameters for this SachID and
+            confirm in the DPS.</span
+          >
+        </div>
+
+        <div>
+          <div class="main-body">
+            <div>
+              <label for="">Set Roller Pressure</label>
+            </div>
+            <div class="check-box">
+              <c-form-check>
+                <input
+                  cFormCheckInput
+                  class="check input-check"
+                  id="checkTwo"
+                  type="checkbox"
+                  (change)="checkRollerPressure($event)"
+                />
+              </c-form-check>
+            </div>
+          </div>
+          <div class="main-body">
+            <div>
+              <label for="">Set Spring Adjustment</label>
+            </div>
+            <div class="check-box">
+              <c-form-check>
+                <input
+                  class="check input-check"
+                  cFormCheckInput
+                  id="checkTwo"
+                  type="checkbox"
+                  (change)="checkSpringAdjustment($event)"
+                />
+              </c-form-check>
+            </div>
+          </div>
+          <div class="main-body">
+            <div>
+              <label for="">Set Hammer Setting</label>
+            </div>
+            <div class="check-box">
+              <c-form-check>
+                <input
+                  class="check input-check"
+                  cFormCheckInput
+                  id="checkTwo"
+                  type="checkbox"
+                  (change)="checkHammerSetting($event)"
+                />
+              </c-form-check>
+            </div>
+          </div>
+          <div class="main-body">
+            <div>
+              <label for="">Set Tape Plate Setting</label>
+            </div>
+            <div class="check-box">
+              <c-form-check>
+                <input
+                  class="check input-check"
+                  cFormCheckInput
+                  id="checkTwo"
+                  type="checkbox"
+                  (change)="checkTapePlateSetting($event)"
+                />
+              </c-form-check>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 span">
+          <span
+            >Please confirm that you have performed the setup for above
+            parameters.</span
+          >
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button
+          cButton
+          class="btn"
+          color="primary"
+          size="lg"
+          [ngClass]="!isAllChecked ? 'btn-disabled' : ''"
+          [disabled]="!isAllChecked"
+          (click)="proceedToCompletemachineSetup()"
+        >
+          Confirm and Proceed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

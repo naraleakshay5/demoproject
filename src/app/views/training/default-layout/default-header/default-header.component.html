@@ -1,0 +1,265 @@
+<!--<c-header class="mb-4 d-print-none" position="sticky">-->
+<ng-container>
+  <c-container [fluid]="true">
+    <!-- <c-header-brand routerLink="./">
+      <img src="assets/img/brand/tdk_base.svg" height="30" alt="CoreUI Logo" />
+    </c-header-brand> -->
+
+    <button
+      toggle="visible"
+      cHeaderToggler
+      [cSidebarToggle]="sidebarId"
+      class="ps-1"
+    >
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+    <c-header-nav class="d-none d-lg-flex me-auto">
+      <!-- <c-nav-item>
+        <button cButton routerLink="/users" routerLinkActive="active">
+          <fa-icon [icon]="icons.arrowLeft"></fa-icon> Back
+        </button>
+      </c-nav-item> -->
+      <!-- <c-nav-item> -->
+      <!-- <a cNavLink routerLink="/dashboard" routerLinkActive="active">
+          Dashboard
+        </a> -->
+      <div cHeaderText class="dps_main_heading">
+        <h5 *ngIf="!!webClientProfile">
+          {{ webClientProfile.name }}
+        </h5>
+        <h5 *ngIf="!webClientProfile && processId == 1">WINDING - WN001</h5>
+        <h5 *ngIf="!webClientProfile && processId == 2">
+          PRE-SCAN-HOT PRESS - PS001
+        </h5>
+        <h5 *ngIf="!webClientProfile && processId == 3">HOT-PRESS - HP001</h5>
+        <h5 *ngIf="!webClientProfile && processId == 6">
+          PRE-SCAN-MASKING - PS002
+        </h5>
+        <h5 *ngIf="!webClientProfile && processId == 4">
+          Station/Machine-Masking, MA001
+        </h5>
+        <!-- <h5 *ngIf="processId == 1">WINDING - WN001</h5>
+        <h5 *ngIf="processId == 2">PRE-SCAN-HOT PRESS - PS001</h5>
+        <h5 *ngIf="processId == 12">PRE-SCAN-Masking - PS001</h5>
+        <h5 *ngIf="processId == 3">HOT-PRESS - HP001</h5>
+        <h5 *ngIf="processId == 4">Station/Machine-Masking, MA001</h5> -->
+      </div>
+      <!-- </c-nav-item> -->
+      <!-- <c-nav-item>
+        <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
+      </c-nav-item>
+      <c-nav-item>
+        <a cNavLink routerLink="/settings" routerLinkActive="active">
+          Settings
+        </a>
+      </c-nav-item> -->
+    </c-header-nav>
+
+    <c-header-nav class="d-none d-lg-flex">
+      <c-nav-item>
+        <!-- <a routerLink="#"> -->
+        <!-- <svg cIcon name="cilBell" size="lg"></svg> -->
+        <!-- <fa-icon size="2x" [icon]="icons.bell"></fa-icon> -->
+        <!-- </a> -->
+      </c-nav-item>
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <!-- <svg cIcon name="cilBell" size="lg"></svg> -->
+          <fa-icon size="2x" [icon]="icons.bell"></fa-icon>
+        </a>
+      </c-nav-item>
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <!-- <svg cIcon name="cilBell" size="lg"></svg> -->
+          <fa-icon size="2x" [icon]="icons.circleQuestion"></fa-icon>
+        </a>
+      </c-nav-item>
+      <!-- <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <svg cIcon name="cilList" size="lg"></svg>
+        </a>
+      </c-nav-item>
+      <c-nav-item>
+        <a routerLink="./" cNavLink>
+          <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
+        </a>
+      </c-nav-item> -->
+      <!-- <ng-container *ngTemplateOutlet="otherDropdown"></ng-container> -->
+      <!-- <c-dropdown variant="nav-item">
+        <a [routerLink] cDropdownToggle cNavLink>Dropdown button</a>
+        <ul cDropdownMenu>
+          <li><a [routerLink] cDropdownItem>Action</a></li>
+          <li><a [routerLink] cDropdownItem>Another action</a></li>
+          <li><a [routerLink] cDropdownItem>Something else here</a></li>
+        </ul>
+      </c-dropdown> -->
+    </c-header-nav>
+    <c-header-nav class="" *ngIf="isLoggedIn">
+      <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+    </c-header-nav>
+    <c-header-nav class="ms-3">
+      <button
+        *ngIf="!isLoggedIn && url.url == '/po-list'"
+        cButton
+        routerLink="/login"
+        routerLinkActive="active"
+      >
+        Login
+      </button>
+      <!-- <button *ngIf="isLoggedIn" (click)="logout()" cButton>LogOut</button> -->
+      <button
+        class="btn btn-primary"
+        routerLink="/po-list"
+        *ngIf="!isLoggedIn && url.url == '/login'"
+      >
+        PO List
+      </button>
+    </c-header-nav>
+  </c-container>
+  <!-- <c-header-divider></c-header-divider> -->
+  <!-- <c-container [fluid]="true">
+    <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
+  </c-container> -->
+</ng-container>
+<!--</c-header>-->
+
+<ng-template #otherDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <a
+      href="javascript:;"
+      color=""
+      [caret]="false"
+      cDropdownToggle
+      class="py-0"
+    >
+      <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
+    </a>
+    <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          Profile
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilSettings"></svg>
+          Settings
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilCreditCard"></svg>
+          Payments
+          <c-badge class="ms-2 float-end" color="secondary"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilFile"></svg>
+          Projects
+          <c-badge class="ms-2 float-end" color="primary"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <hr cDropdownDivider />
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Lock Account
+        </a>
+      </li>
+      <li></li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+<ng-template #userDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
+      <c-avatar
+        cTextColor="primary"
+        shape="rounded-1"
+        size="md"
+        src="./{{ currentUser?.user_profile }}"
+        status="success"
+      >
+      </c-avatar>
+    </button>
+    <ul cDropdownMenu class="pt-0 w-auto">
+      <li>
+        <a routerLink="#" class="" cDropdownItem>
+          <svg cIcon class="me-2" name="cilUser"></svg>
+          <strong>{{ currentUser?.name }}</strong>
+        </a>
+      </li>
+      <!-- <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilBell"></svg>
+          Updates
+          <c-badge class="ms-2 float-end" color="info"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
+          Messages
+          <c-badge class="ms-2 float-end" color="success"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilTask"></svg>
+          Tasks
+          <c-badge class="ms-2 float-end" color="danger"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilCommentSquare"></svg>
+          Comments
+          <c-badge class="ms-auto" color="warning"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
+      </li>
+      <li></li>
+     
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilSettings"></svg>
+          Settings
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilCreditCard"></svg>
+          Payments
+          <c-badge class="ms-2 float-end" color="secondary"> 42 </c-badge>
+        </a>
+      </li>
+      <li>
+        <a routerLink="./" cDropdownItem>
+          <svg cIcon class="me-2" name="cilFile"></svg>
+          Projects
+          <c-badge class="ms-2 float-end" color="primary"> 42 </c-badge>
+        </a>
+      </li> -->
+      <!-- <li>
+        <hr cDropdownDivider />
+      </li> -->
+      <li>
+        <a (click)="logout()" cDropdownItem>
+          <svg cIcon class="me-2" name="cilLockLocked"></svg>
+          Logout
+        </a>
+      </li>
+      <li></li>
+    </ul>
+  </c-dropdown>
+</ng-template>

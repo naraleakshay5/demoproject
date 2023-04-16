@@ -1,0 +1,26 @@
+<div>
+  <div>
+    <h5 class="font-weight-bold">Confirmation!</h5>
+  </div>
+  <div class="mt-3">
+    <span class="d-block">Verifies the all boxes are recived?</span>
+    <span class="d-block">Pastes labels on the All boxes.</span>
+    <span class="d-block">Also verifies the label on resto box.</span>
+  </div>
+
+  <span class="d-block mt-3">
+    confirm
+    <input type="checkbox" class="check-box" (change)="onCheck($event)" />
+  </span>
+  <div class="text-right mt-3">
+    <button
+      cButton
+      color="primary"
+      size="lg"
+      (click)="proceed()"
+      [disabled]="!isdisabled"
+    >
+      Proceed
+    </button>
+  </div>
+</div>
